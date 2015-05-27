@@ -123,7 +123,7 @@ server.start
 ### Connect using `redis-cli`
 
 ```shell
-redis-cli -p 3721
+$ redis-cli -p 3721
 127.0.0.1:3721> count
 (integer) 0
 127.0.0.1:3721> incr
@@ -166,7 +166,7 @@ total_commands_processed:6
 ### Benchmarking with `redis-benchmark`
 
 ```shell
-redis-benchmark -p 3721 incr
+$ redis-benchmark -p 3721 incr
 ====== count ======
   10000 requests completed in 0.73 seconds
   50 parallel clients

@@ -123,8 +123,8 @@ module RDKit
       @command_parsers[io].gets
     end
 
-    def send_response(io, reply)
-      resp = runner.resp(reply)
+    def send_response(io, cmd)
+      resp = runner.resp(cmd)
 
       @logger.debug(resp)
 

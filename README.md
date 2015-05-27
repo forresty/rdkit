@@ -32,7 +32,7 @@ Or install it yourself as:
 
 see examples under `example` folder.
 
-### Implementing a cycle-counter server
+### Implementing a counter server
 
 A simple counter server source code listing:
 
@@ -51,17 +51,23 @@ module Counter
 
     def initialize
       @count = 0
+      @last_tick = Time.now
     end
 
     # `tick!` is called periodically by RDKit
     def tick!
-      @count += 1
+      @last_tick = Time.now
+    end
+
+    def incr(n)
+      @count += n
     end
 
     def introspection
       {
         counter_version: Counter::VERSION,
-        count: @count
+        count: @count,
+        last_tick: @last_tick
       }
     end
   end
@@ -77,6 +83,10 @@ module Counter
     # every public method of this class will be accessible by clients
     def count
       @counter.count
+    end
+
+    def incr(n=1)
+      @counter.incr(n.to_i)
     end
   end
 end
@@ -115,15 +125,20 @@ server.start
 ```shell
 redis-cli -p 3721
 127.0.0.1:3721> count
-(integer) 12
-
+(integer) 0
+127.0.0.1:3721> incr
+(integer) 1
+127.0.0.1:3721> incr 10
+(integer) 11
+127.0.0.1:3721> count
+(integer) 11
 127.0.0.1:3721> info
 # Server
 rdkit_version:0.0.1
 multiplexing_api:select
-process_id:12150
+process_id:15083
 tcp_port:3721
-uptime_in_seconds:8
+uptime_in_seconds:268
 uptime_in_days:0
 hz:10
 
@@ -132,16 +147,17 @@ connected_clients:1
 connected_clients_peak:1
 
 # Memory
-used_memory_rss:27.66M
-used_memory_peak:27.66M
+used_memory_rss:31.89M
+used_memory_peak:31.89M
 
 # Counter
 counter_version:0.0.1
-count:24
+count:11
+last_tick:2015-05-27 20:15:38 +0800
 
 # Stats
 total_connections_received:1
-total_commands_processed:1
+total_commands_processed:6
 
 127.0.0.1:3721> xx
 (error) ERR unknown command 'xx'
@@ -150,7 +166,7 @@ total_commands_processed:1
 ### Benchmarking with `redis-benchmark`
 
 ```shell
-redis-benchmark -p 3721 count
+redis-benchmark -p 3721 incr
 ====== count ======
   10000 requests completed in 0.73 seconds
   50 parallel clients
@@ -168,6 +184,13 @@ redis-benchmark -p 3721 count
 99.99% <= 74 milliseconds
 100.00% <= 77 milliseconds
 13679.89 requests per second
+```
+
+Since it is single-threaded, the count will be correct:
+
+```shell
+127.0.0.1:3721> count
+(integer) 10000
 ```
 
 ## Development

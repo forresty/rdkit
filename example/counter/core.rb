@@ -4,6 +4,7 @@ module Counter
 
     def initialize
       @count = 0
+      @last_tick = Time.now
     end
     ###########################################
     # overriding required RDKit::Core methods
@@ -11,13 +12,18 @@ module Counter
 
     # `tick!` is called periodically by RDKit
     def tick!
-      @count += 1
+      @last_tick = Time.now
+    end
+
+    def incr(n)
+      @count += n
     end
 
     def introspection
       {
         counter_version: Counter::VERSION,
-        count: @count
+        count: @count,
+        last_tick: @last_tick
       }
     end
   end

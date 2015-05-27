@@ -8,5 +8,9 @@ module Counter
     def count
       @counter.count
     end
+
+    def incr(n=1)
+      @counter.incr(n.to_i)
+    end
   end
 end

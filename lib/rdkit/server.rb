@@ -1,3 +1,5 @@
+require 'newrelic_rpm'
+
 module RDKit
   class Server
     HZ = 10

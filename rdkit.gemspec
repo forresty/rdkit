@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Forrest Ye"]
   spec.email         = ["afu@forresty.com"]
 
-  spec.summary       = %q{RDKit is a simple toolkit to write Redis-like, single-threaded multiplexed-IO server.}
+  spec.summary       = %q{RDKit is a simple toolkit to write Redis-like, single-threaded multiplexing-IO server.}
   spec.homepage      = "http://github.com/forresty/rdkit"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
@@ -18,6 +18,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency 'hiredis'
+  spec.add_runtime_dependency 'newrelic_rpm'
 
   spec.add_development_dependency "bundler", "~> 1.8"
   spec.add_development_dependency "rake", "~> 10.0"

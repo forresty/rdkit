@@ -1,1 +1,10 @@
-require_relative "rdkit/version"
+require_relative 'rdkit/version'
+require_relative 'rdkit/errors'
+require_relative 'rdkit/resp'
+require_relative 'rdkit/logger'
+require_relative 'rdkit/introspection'
+require_relative 'rdkit/inheritable'
+require_relative 'rdkit/core'
+require_relative 'rdkit/command_parser'
+require_relative 'rdkit/resp_runner'
+require_relative 'rdkit/server'

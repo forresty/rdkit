@@ -6,6 +6,11 @@ module Counter
       @count = 0
       @last_tick = Time.now
     end
+
+    def incr(n)
+      @count += n
+    end
+
     ###########################################
     # overriding required RDKit::Core methods
     ###########################################
@@ -13,10 +18,6 @@ module Counter
     # `tick!` is called periodically by RDKit
     def tick!
       @last_tick = Time.now
-    end
-
-    def incr(n)
-      @count += n
     end
 
     def introspection

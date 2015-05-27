@@ -2,7 +2,7 @@
 
 RDKit is a simple toolkit to write Redis-like, single-threaded multiplexing-IO server.
 
-The server speaks in [Redis RESP protocol](http://redis.io/topics/protocol), so you can reuse many Redis-compatible clients and tools such as:
+The server speaks [Redis RESP protocol](http://redis.io/topics/protocol), so you can reuse many Redis-compatible clients and tools such as:
 
 - `redis-cli`
 - `redis-benchmark`

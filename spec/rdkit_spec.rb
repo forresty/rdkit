@@ -1,11 +1,7 @@
 require 'spec_helper'
 
-describe Rdkit do
+describe RDKit do
   it 'has a version number' do
-    expect(Rdkit::VERSION).not_to be nil
-  end
-
-  it 'does something useful' do
-    expect(false).to eq(true)
+    expect(RDKit::VERSION).not_to be nil
   end
 end

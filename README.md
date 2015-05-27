@@ -147,6 +147,29 @@ total_commands_processed:1
 (error) ERR unknown command 'xx'
 ```
 
+### Benchmarking with `redis-benchmark`
+
+```shell
+redis-benchmark -p 3721 count
+====== count ======
+  10000 requests completed in 0.73 seconds
+  50 parallel clients
+  3 bytes payload
+  keep alive: 1
+
+0.01% <= 1 milliseconds
+2.27% <= 2 milliseconds
+42.31% <= 3 milliseconds
+63.99% <= 4 milliseconds
+96.14% <= 5 milliseconds
+...
+99.97% <= 68 milliseconds
+99.98% <= 71 milliseconds
+99.99% <= 74 milliseconds
+100.00% <= 77 milliseconds
+13679.89 requests per second
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.

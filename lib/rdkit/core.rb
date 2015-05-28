@@ -5,9 +5,5 @@ module RDKit
     def tick!
       raise ShouldOverrideError
     end
-
-    def introspection
-      raise ShouldOverrideError
-    end
   end
 end

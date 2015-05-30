@@ -9,10 +9,18 @@ module RDKit
     end
 
     # 获取服务器状态
-    def info
-      Introspection.info.map do |type, value|
-        "# #{type.capitalize}\r\n" + value.map { |k, v| "#{k}:#{v}" }.join("\r\n") + "\r\n"
-      end.join("\r\n") + "\r\n"
+    def info(section=nil)
+      info = if section.nil?
+        Introspection.info
+      else
+        Introspection.info.keep_if { |k, v| k == section.downcase.to_sym }
+      end
+
+      unless info.empty?
+        info.map do |type, value|
+          "# #{type.capitalize}\r\n" + value.map { |k, v| "#{k}:#{v}" }.join("\r\n") + "\r\n"
+        end.join("\r\n") + "\r\n"
+      end
     end
 
     private

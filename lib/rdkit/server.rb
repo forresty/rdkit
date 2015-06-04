@@ -49,7 +49,7 @@ module RDKit
     end
 
     def stop
-      @logger.warn "signal caught, shutting down..."
+      @logger.warn "shutting down..."
       exit
     end
 

@@ -28,7 +28,7 @@ module RDKit
     end
 
     def config(cmd, *args)
-      execute_subcommand('config', %w{ resetstat }, cmd, *args)
+      execute_subcommand('config', %w{ get set resetstat }, cmd, *args)
     end
 
     private
@@ -48,6 +48,20 @@ module RDKit
       Introspection::Stats.clear(:total_connections_received)
       Introspection::Stats.clear(:total_net_input_bytes)
       Introspection::Stats.clear(:total_net_output_bytes)
+
+      'OK'
+    end
+
+    def config_get(key)
+      if value = Configuration.get(key)
+        [key, value]
+      else
+        []
+      end
+    end
+
+    def config_set(key, value)
+      Configuration.set(key, value)
 
       'OK'
     end

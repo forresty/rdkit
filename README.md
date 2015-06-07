@@ -198,13 +198,13 @@ Since it is single-threaded, the count will be correct:
 
 ### Implemented Redis Commands
 
-| command   | support            | note                                        |
-|-----------|--------------------|---------------------------------------------|
-| `info`    | full               |                                             |
-| `ping`    | full               |                                             |
-| `echo`    | full               |                                             |
-| `select`  | partial/compatible | `redis-benchmark` requires `select` command |
-| `config`  | `resetstat` only   |                                             |
+| command   | support                   | note                                        |
+|-----------|---------------------------|---------------------------------------------|
+| `info`    | full                      |                                             |
+| `ping`    | full                      |                                             |
+| `echo`    | full                      |                                             |
+| `select`  | partial/compatible        | `redis-benchmark` requires `select` command |
+| `config`  | `get`, `set`, `resetstat` |                                             |
 
 ## Development
 

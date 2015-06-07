@@ -27,6 +27,12 @@ module RDKit
       message
     end
 
+    def time
+      t = Time.now
+
+      [t.to_i, t.usec].map(&:to_s)
+    end
+
     def config(cmd, *args)
       execute_subcommand('config', %w{ get set resetstat }, cmd, *args)
     end

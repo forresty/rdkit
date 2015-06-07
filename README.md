@@ -203,6 +203,7 @@ Since it is single-threaded, the count will be correct:
 | `info`    | full                      |                                             |
 | `ping`    | full                      |                                             |
 | `echo`    | full                      |                                             |
+| `time`    | full                      |                                             |
 | `select`  | partial/compatible        | `redis-benchmark` requires `select` command |
 | `config`  | `get`, `set`, `resetstat` |                                             |
 

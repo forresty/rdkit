@@ -23,6 +23,10 @@ module RDKit
       end
     end
 
+    def echo(message)
+      message
+    end
+
     private
 
     def call(cmd)

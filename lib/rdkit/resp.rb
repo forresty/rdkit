@@ -5,6 +5,10 @@ module RDKit
     module ClassMethods
       def compose(data)
         case data
+        when 'OK'
+          # Bulk String "OK" will be displayed by redis-cli as "OK"
+          # While Simple String "OK" will be displayed as non-quoted OK
+          "+OK\r\n"
         when Integer
           ":#{data}\r\n"
         when Array

@@ -1,3 +1,5 @@
+# http://redis.io/commands/slowlog
+
 module RDKit
   class SlowLog
     module ClassMethods

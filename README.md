@@ -196,6 +196,16 @@ Since it is single-threaded, the count will be correct:
 (integer) 10000
 ```
 
+### Implemented Redis Commands
+
+| command   | support            | note                                        |
+|-----------|--------------------|---------------------------------------------|
+| `info`    | full               |                                             |
+| `ping`    | full               |                                             |
+| `echo`    | full               |                                             |
+| `select`  | partial/compatible | `redis-benchmark` requires `select` command |
+| `config`  | `resetstat` only   |                                             |
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.

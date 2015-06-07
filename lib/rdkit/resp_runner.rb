@@ -37,6 +37,10 @@ module RDKit
       execute_subcommand('config', %w{ get set resetstat }, cmd, *args)
     end
 
+    def slowlog(cmd, *args)
+      execute_subcommand('slowlog', %w{ get reset len }, cmd, *args)
+    end
+
     private
 
     def execute_subcommand(base, valid_subcommands, subcommand, *args)
@@ -49,6 +53,18 @@ module RDKit
       end
     rescue ArgumentError => e
       raise WrongNumberOfArgumentForSubcommandError, "ERR Wrong number of arguments for #{base.upcase} #{subcommand.downcase}"
+    end
+
+    def slowlog_get(count=nil)
+      if count
+        if count.to_i.to_s != count
+          raise IllegalArgumentError, 'ERR value is not an integer or out of range'
+        end
+
+        SlowLog.recent(count.to_i)
+      else
+        SlowLog.recent(-1)
+      end
     end
 
     def config_resetstat

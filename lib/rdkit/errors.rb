@@ -8,6 +8,8 @@ module RDKit
   class UnknownSubcommandError < ProtocolError; end
   class WrongNumberOfArgumentForSubcommandError < ProtocolError; end
 
+  class IllegalArgumentError < ProtocolError; end
+
   class NotImplementedError < RDKitError; end
 
   class SDKRequirementNotMetError < RDKitError; end

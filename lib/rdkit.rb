@@ -1,6 +1,8 @@
 require_relative 'rdkit/version'
+require_relative 'rdkit/core_ext'
 require_relative 'rdkit/errors'
 require_relative 'rdkit/configuration'
+require_relative 'rdkit/slow_log'
 require_relative 'rdkit/resp'
 require_relative 'rdkit/logger'
 require_relative 'rdkit/introspection'

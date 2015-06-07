@@ -28,16 +28,20 @@ module RDKit
     end
 
     def config(cmd, *args)
-      subcommands = %w{ resetstat }
-
-      if subcommands.include?(cmd.downcase)
-        __send__("config_#{cmd.downcase}", *args)
-      else
-        raise UnknownSubcommandError, "ERR CONFIG subcommand must be one of #{subcommands.map(&:upcase).join(', ')}"
-      end
+      execute_subcommand('config', %w{ resetstat }, cmd, *args)
     end
 
     private
+
+    def execute_subcommand(base, valid_subcommands, subcommand, *args)
+      valid_subcommands, subcommand = valid_subcommands.map(&:upcase), subcommand.upcase
+
+      if valid_subcommands.include?(subcommand)
+        __send__("#{base}_#{subcommand.downcase}", *args)
+      else
+        raise UnknownSubcommandError, "ERR #{base.upcase} subcommand must be one of #{valid_subcommands.join(', ')}"
+      end
+    end
 
     def config_resetstat
       Introspection::Stats.clear(:total_commands_processed)

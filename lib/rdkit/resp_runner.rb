@@ -71,6 +71,12 @@ module RDKit
       SlowLog.count
     end
 
+    def slowlog_reset
+      SlowLog.reset
+
+      'OK'
+    end
+
     def config_resetstat
       Introspection::Stats.clear(:total_commands_processed)
       Introspection::Stats.clear(:total_connections_received)

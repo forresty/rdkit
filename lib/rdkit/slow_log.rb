@@ -8,6 +8,10 @@ module RDKit
         @@logs.size
       end
 
+      def reset
+        @@logs.clear
+      end
+
       def recent(count)
         if count == 0
           []

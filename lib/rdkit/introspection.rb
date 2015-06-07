@@ -55,8 +55,8 @@ module RDKit
       module ClassMethods
         @@instance = Stats.new
 
-        def incr(key)
-          @@instance.data[key] += 1
+        def incr(key, amount=1)
+          @@instance.data[key] += amount
         end
 
         def info

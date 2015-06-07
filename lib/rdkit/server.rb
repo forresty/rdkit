@@ -116,6 +116,8 @@ module RDKit
     def feed_parser(io)
       cmd = io.readpartial(1024)
 
+      Introspection::Stats.incr(:total_net_input_bytes, cmd.bytesize)
+
       @command_parsers[io].feed(cmd)
     end
 
@@ -125,6 +127,8 @@ module RDKit
 
     def send_response(io, cmd)
       resp = runner.resp(cmd)
+
+      Introspection::Stats.incr(:total_net_output_bytes, resp.bytesize)
 
       @logger.debug(resp)
 

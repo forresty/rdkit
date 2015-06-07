@@ -20,7 +20,7 @@ module RDKit
         elapsed_in_milliseconds = ((Time.now - t0) * 1000).to_i
 
         if (threshold = Configuration.get_i('slowlog-log-slower-than')) >= 0
-          if elapsed_in_milliseconds > threshold
+          if elapsed_in_milliseconds >= threshold
             @@logs << [@@sequence_id, Time.now.to_i, elapsed_in_milliseconds, cmd]
             @@sequence_id += 1
 

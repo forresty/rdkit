@@ -55,50 +55,60 @@ module RDKit
       raise WrongNumberOfArgumentForSubcommandError, "ERR Wrong number of arguments for #{base.upcase} #{subcommand.downcase}"
     end
 
-    def slowlog_get(count=nil)
-      if count
-        if count.to_i.to_s != count
-          raise IllegalArgumentError, 'ERR value is not an integer or out of range'
+    module SlowLogSubcommands
+      private
+
+      def slowlog_get(count=nil)
+        if count
+          if count.to_i.to_s != count
+            raise IllegalArgumentError, 'ERR value is not an integer or out of range'
+          end
+
+          SlowLog.recent(count.to_i)
+        else
+          SlowLog.recent(-1)
         end
+      end
 
-        SlowLog.recent(count.to_i)
-      else
-        SlowLog.recent(-1)
+      def slowlog_len
+        SlowLog.count
+      end
+
+      def slowlog_reset
+        SlowLog.reset
+
+        'OK'
       end
     end
+    include SlowLogSubcommands
 
-    def slowlog_len
-      SlowLog.count
-    end
+    module ConfigSubcommands
+      private
 
-    def slowlog_reset
-      SlowLog.reset
+      def config_resetstat
+        Introspection::Stats.clear(:total_commands_processed)
+        Introspection::Stats.clear(:total_connections_received)
+        Introspection::Stats.clear(:total_net_input_bytes)
+        Introspection::Stats.clear(:total_net_output_bytes)
 
-      'OK'
-    end
+        'OK'
+      end
 
-    def config_resetstat
-      Introspection::Stats.clear(:total_commands_processed)
-      Introspection::Stats.clear(:total_connections_received)
-      Introspection::Stats.clear(:total_net_input_bytes)
-      Introspection::Stats.clear(:total_net_output_bytes)
+      def config_get(key)
+        if value = Configuration.get(key)
+          [key, value]
+        else
+          []
+        end
+      end
 
-      'OK'
-    end
+      def config_set(key, value)
+        Configuration.set(key, value)
 
-    def config_get(key)
-      if value = Configuration.get(key)
-        [key, value]
-      else
-        []
+        'OK'
       end
     end
-
-    def config_set(key, value)
-      Configuration.set(key, value)
-
-      'OK'
-    end
+    include ConfigSubcommands
 
     def call(cmd)
       @logger ||= Logger.new

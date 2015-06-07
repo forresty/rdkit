@@ -41,6 +41,8 @@ module RDKit
       else
         raise UnknownSubcommandError, "ERR #{base.upcase} subcommand must be one of #{valid_subcommands.join(', ')}"
       end
+    rescue ArgumentError => e
+      raise WrongNumberOfArgumentForSubcommandError, "ERR Wrong number of arguments for #{base.upcase} #{subcommand.downcase}"
     end
 
     def config_resetstat

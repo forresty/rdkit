@@ -59,6 +59,10 @@ module RDKit
           @@instance.data[key] += amount
         end
 
+        def clear(key)
+          @@instance.data[key] = 0
+        end
+
         def info
           @@instance.data
         end

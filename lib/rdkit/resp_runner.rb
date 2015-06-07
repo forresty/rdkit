@@ -27,7 +27,26 @@ module RDKit
       message
     end
 
+    def config(cmd, *args)
+      subcommands = %w{ resetstat }
+
+      if subcommands.include?(cmd.downcase)
+        __send__("config_#{cmd.downcase}", *args)
+      else
+        raise UnknownSubcommandError, "ERR CONFIG subcommand must be one of #{subcommands.map(&:upcase).join(', ')}"
+      end
+    end
+
     private
+
+    def config_resetstat
+      Introspection::Stats.clear(:total_commands_processed)
+      Introspection::Stats.clear(:total_connections_received)
+      Introspection::Stats.clear(:total_net_input_bytes)
+      Introspection::Stats.clear(:total_net_output_bytes)
+
+      'OK'
+    end
 
     def call(cmd)
       @logger ||= Logger.new

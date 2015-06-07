@@ -4,6 +4,7 @@ module RDKit
   class ProtocolError < RDKitError; end
   class UnknownCommandError < ProtocolError; end
   class WrongNumberOfArgumentError < ProtocolError; end
+  class UnknownSubcommandError < ProtocolError; end
 
   class NotImplementedError < RDKitError; end
 

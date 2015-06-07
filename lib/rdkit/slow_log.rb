@@ -4,6 +4,10 @@ module RDKit
       @@logs = []
       @@sequence_id = 0
 
+      def count
+        @@logs.size
+      end
+
       def recent(count)
         if count == 0
           []

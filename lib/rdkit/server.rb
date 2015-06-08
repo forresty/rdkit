@@ -10,6 +10,7 @@ module RDKit
     attr_reader :runner
     attr_reader :core
     attr_reader :host, :port
+    attr_reader :logger
 
     def initialize(host, port)
       @host, @port = host, port
@@ -97,7 +98,7 @@ module RDKit
 
       socket = @server_socket.accept_nonblock
 
-      @clients[socket] = Client.new(socket, runner, @logger)
+      @clients[socket] = Client.new(socket, self)
 
       @logger.debug "client #{socket} connected"
 

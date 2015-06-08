@@ -2,11 +2,11 @@ module RDKit
   class Client
     attr_accessor :name
 
-    def initialize(socket, runner, logger)
+    def initialize(socket, server)
       @socket = socket
-      @runner = runner
+      @runner = server.runner
       @command_parser = CommandParser.new
-      @logger = logger
+      @logger = server.logger
 
       @fiber = Fiber.new do
         with_error_handling(socket) do |io|

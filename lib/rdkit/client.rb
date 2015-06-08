@@ -40,6 +40,8 @@ module RDKit
 
     def name=(name)
       name.each_char do |c|
+        # http://www.asciitable.com
+        # `networking.c` in redis source code
         unless c >= '!' && c <= '~'
           raise IllegalArgumentError, "ERR Client names cannot contain spaces, newlines or special characters."
         end

@@ -1,12 +1,17 @@
 module RDKit
   class Client
+    attr_accessor :id
     attr_accessor :name
+    attr_accessor :fd
+    attr_accessor :last_command
 
     def initialize(socket, server)
       @socket = socket
       @runner = server.runner
       @command_parser = CommandParser.new
       @logger = server.logger
+      @created_at = Time.now
+      @last_interacted_at = Time.now
 
       @fiber = Fiber.new do
         with_error_handling(socket) do |io|
@@ -16,10 +21,42 @@ module RDKit
     end
 
     def resume
+      @last_interacted_at = Time.now
+
       @fiber.resume
     end
 
+    def info
+      {
+        id:   @id,
+        addr: @socket.local_address.inspect_sockaddr,
+        fd:   @socket.fileno,
+        name: @name,
+        age:  age,
+        idle: idle,
+        cmd:  @last_command
+      }
+    end
+
+    def name=(name)
+      name.each_char do |c|
+        unless c >= '!' && c <= '~'
+          raise IllegalArgumentError, "ERR Client names cannot contain spaces, newlines or special characters."
+        end
+      end
+
+      @name = name
+    end
+
     private
+
+    def age
+      (Time.now - @created_at).to_i
+    end
+
+    def idle
+      (Time.now - @last_interacted_at).to_i
+    end
 
     def with_error_handling(socket, &block)
 
@@ -61,6 +98,8 @@ module RDKit
     end
 
     def send_response(cmd)
+      @last_command = cmd.first
+
       resp, usec = SlowLog.monitor(cmd) { @runner.resp(cmd) }
 
       Introspection::Commandstats.record(cmd.first, usec)

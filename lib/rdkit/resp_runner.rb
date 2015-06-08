@@ -38,7 +38,7 @@ module RDKit
     end
 
     def client(cmd, *args)
-      execute_subcommand('client', %w{ getname setname }, cmd, *args)
+      execute_subcommand('client', %w{ list getname setname }, cmd, *args)
     end
 
     private
@@ -119,6 +119,14 @@ module RDKit
 
       def client_setname(name)
         server.current_client.name = name
+
+        'OK'
+      end
+
+      def client_list
+        server.clients.values.map do |client|
+          client.info.map { |k, v| "#{k}=#{v}" }.join(' ')
+        end.join("\n") + "\n"
       end
     end
     include ClientSubcommands

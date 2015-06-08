@@ -11,6 +11,7 @@ module RDKit
     attr_reader :core
     attr_reader :host, :port
     attr_reader :logger
+    attr_reader :clients
 
     def initialize(host, port)
       @host, @port = host, port
@@ -18,6 +19,7 @@ module RDKit
       @cycles = 0
       @peak_memory = 0
       @peak_connected_clients = 0
+      @client_id_seq = 0
 
       @clients = Hash.new
 
@@ -98,7 +100,8 @@ module RDKit
 
       socket = @server_socket.accept_nonblock
 
-      @clients[socket] = Client.new(socket, self)
+      client = @clients[socket] = Client.new(socket, self)
+      client.id = (@client_id_seq += 1)
 
       @logger.debug "client #{socket} connected"
 

@@ -109,6 +109,10 @@ module RDKit
       @current_client = client
       client.resume
     rescue ClientDisconnectedError => e
+      delete(socket)
+    end
+
+    def delete(socket)
       @clients.delete(socket)
     end
 

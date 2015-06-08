@@ -6,6 +6,7 @@ module RDKit
     CYCLES_TIL_MEMORY_RESAMPLE = 1000
 
     attr_reader :server_up_since
+    attr_reader :current_client
     attr_reader :runner
     attr_reader :core
     attr_reader :host, :port
@@ -105,6 +106,7 @@ module RDKit
 
     def process(socket)
       client = @clients[socket]
+      @current_client = client
       client.resume
     rescue ClientDisconnectedError => e
       @clients.delete(socket)

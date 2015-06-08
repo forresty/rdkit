@@ -210,6 +210,7 @@ Since it is single-threaded, the count will be correct:
 | `select`  | partial/compatible        | `redis-benchmark` requires `select` command |
 | `config`  | `get`, `set`, `resetstat` |                                             |
 | `slowlog` | full                      |                                             |
+| `client`  | `getname`, `setname`      |                                             |
 
 ## Development
 

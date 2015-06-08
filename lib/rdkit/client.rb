@@ -1,5 +1,7 @@
 module RDKit
   class Client
+    attr_accessor :name
+
     def initialize(socket, runner, logger)
       @socket = socket
       @runner = runner

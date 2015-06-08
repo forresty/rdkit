@@ -37,6 +37,10 @@ module RDKit
       execute_subcommand('slowlog', %w{ get reset len }, cmd, *args)
     end
 
+    def client(cmd, *args)
+      execute_subcommand('client', %w{ getname setname }, cmd, *args)
+    end
+
     private
 
     def execute_subcommand(base, valid_subcommands, subcommand, *args)
@@ -105,6 +109,19 @@ module RDKit
       end
     end
     include ConfigSubcommands
+
+    module ClientSubcommands
+      private
+
+      def client_getname
+        server.current_client.name
+      end
+
+      def client_setname(name)
+        server.current_client.name = name
+      end
+    end
+    include ClientSubcommands
 
     def call(cmd)
       @logger ||= Logger.new

@@ -48,7 +48,6 @@ module RDKit
 
       def initialize
         @data = {}
-
         @data.default = 0
       end
 
@@ -71,13 +70,55 @@ module RDKit
       class << self; include ClassMethods; end
     end
 
+    class Commandstats
+      attr_reader :data
+
+      def initialize
+        @data = {}
+        @data.default = 0
+      end
+
+      module ClassMethods
+        @@instance = Commandstats.new
+
+        def record(cmd, usec)
+          @@instance.data["#{cmd.downcase}_calls"] += 1
+          @@instance.data["#{cmd.downcase}_usec"] += usec
+        end
+
+        def info
+          cmds = @@instance.data.keys.map { |key| key.match(/^(.+)_/)[1] }.uniq
+
+          Hash[cmds.map do |cmd|
+            calls = @@instance.data["#{cmd}_calls"]
+            usec = @@instance.data["#{cmd}_usec"]
+
+            ["comstat_#{cmd}", "calls=#{calls},usec=#{usec},usec_per_call=#{'%.2f' % (usec.to_f / calls)}"]
+          end]
+        end
+      end
+
+      class << self; include ClassMethods; end
+    end
+
     module ClassMethods
       def register(server)
         @@server = server
       end
 
-      def info
-        @@server.introspection.merge({ stats: Stats.info })
+      def info(section)
+        default = @@server.introspection.merge({ stats: Stats.info })
+
+        case section.downcase
+        when 'default'
+          default
+        when 'all'
+          default.merge({ commandstats: Commandstats.info })
+        when 'commandstats'
+          { commandstats: Commandstats.info }
+        else
+          default.keep_if { |k, v| k == section.downcase.to_sym }
+        end
       end
     end
 

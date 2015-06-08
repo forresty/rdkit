@@ -126,8 +126,9 @@ module RDKit
     end
 
     def send_response(io, cmd)
-      resp = SlowLog.monitor(cmd) { runner.resp(cmd) }
+      resp, usec = SlowLog.monitor(cmd) { runner.resp(cmd) }
 
+      Introspection::Commandstats.record(cmd.first, usec)
       Introspection::Stats.incr(:total_net_output_bytes, resp.bytesize)
 
       @logger.debug(resp)

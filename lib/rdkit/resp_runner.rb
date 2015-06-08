@@ -9,12 +9,8 @@ module RDKit
     end
 
     # 获取服务器状态
-    def info(section=nil)
-      info = if section.nil?
-        Introspection.info
-      else
-        Introspection.info.keep_if { |k, v| k == section.downcase.to_sym }
-      end
+    def info(section='default')
+      info = Introspection.info(section)
 
       unless info.empty?
         info.map do |type, value|

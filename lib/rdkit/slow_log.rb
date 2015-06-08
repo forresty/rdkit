@@ -27,7 +27,8 @@ module RDKit
       def monitor(cmd, &block)
         t0 = Time.now
         result = block.call
-        elapsed_in_milliseconds = ((Time.now - t0) * 1000).to_i
+        elapsed_in_usec = ((Time.now - t0) * 1_000_000).to_i
+        elapsed_in_milliseconds = elapsed_in_usec / 1_000
 
         if (threshold = Configuration.get_i('slowlog-log-slower-than')) >= 0
           if elapsed_in_milliseconds >= threshold
@@ -40,7 +41,7 @@ module RDKit
           end
         end
 
-        result
+        [result, elapsed_in_usec]
       end
     end
 

@@ -79,8 +79,11 @@ end
 # counter/command_runner.rb
 module Counter
   class CommandRunner < RDKit::RESPRunner
-    def initialize(counter)
+    attr_reader :server
+
+    def initialize(counter, server)
       @counter = counter
+      @server  = server
     end
 
     # every public method of this class will be accessible by clients
@@ -104,7 +107,7 @@ module Counter
       @core = Core.new
 
       # @runner is also required by RDKit
-      @runner = CommandRunner.new(@core)
+      @runner = CommandRunner.new(@core, self)
     end
 
     def introspection

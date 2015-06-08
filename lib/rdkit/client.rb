@@ -29,7 +29,7 @@ module RDKit
     def info
       {
         id:   @id,
-        addr: @socket.local_address.inspect_sockaddr,
+        addr: @socket.remote_address.inspect_sockaddr,
         fd:   @socket.fileno,
         name: @name,
         age:  age,

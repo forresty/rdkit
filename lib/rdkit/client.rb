@@ -43,7 +43,7 @@ module RDKit
         # http://www.asciitable.com
         # `networking.c` in redis source code
         unless c >= '!' && c <= '~'
-          raise IllegalArgumentError, "ERR Client names cannot contain spaces, newlines or special characters."
+          raise IllegalArgumentError, "Client names cannot contain spaces, newlines or special characters."
         end
       end
 

@@ -49,10 +49,10 @@ module RDKit
       if valid_subcommands.include?(subcommand)
         __send__("#{base}_#{subcommand.downcase}", *args)
       else
-        raise UnknownSubcommandError, "ERR #{base.upcase} subcommand must be one of #{valid_subcommands.join(', ')}"
+        raise UnknownSubcommandError, "#{base.upcase} subcommand must be one of #{valid_subcommands.join(', ')}"
       end
     rescue ArgumentError => e
-      raise WrongNumberOfArgumentForSubcommandError, "ERR Wrong number of arguments for #{base.upcase} #{subcommand.downcase}"
+      raise WrongNumberOfArgumentForSubcommandError, "Wrong number of arguments for #{base.upcase} #{subcommand.downcase}"
     end
 
     module SlowLogSubcommands
@@ -61,7 +61,7 @@ module RDKit
       def slowlog_get(count=nil)
         if count
           if count.to_i.to_s != count
-            raise IllegalArgumentError, 'ERR value is not an integer or out of range'
+            raise IllegalArgumentError, 'value is not an integer or out of range'
           end
 
           SlowLog.recent(count.to_i)
@@ -144,10 +144,10 @@ module RDKit
       if self.respond_to?(cmd)
         self.__send__(cmd, *args)
       else
-        raise UnknownCommandError, "ERR unknown command '#{cmd}'"
+        raise UnknownCommandError, "unknown command '#{cmd}'"
       end
     rescue ArgumentError => e
-      raise WrongNumberOfArgumentError, "ERR wrong number of arguments for '#{cmd}' command"
+      raise WrongNumberOfArgumentError, "wrong number of arguments for '#{cmd}' command"
     end
 
     module RedisCompatibility

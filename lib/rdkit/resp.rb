@@ -17,7 +17,7 @@ module RDKit
           # Null Bulk String, not Null Array of "*-1\r\n"
           "$-1\r\n"
         when StandardError
-          "-#{data.message}\r\n"
+          "-ERR #{data.message}\r\n"
         else
           # always Bulk String
           "$#{data.bytesize}\r\n#{data}\r\n"

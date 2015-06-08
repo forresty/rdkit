@@ -17,7 +17,7 @@ module RDKit
       @peak_memory = 0
       @peak_connected_clients = 0
 
-      @clients, @command_parsers = Hash.new, Hash.new
+      @clients = Hash.new
 
       @logger = Logger.new
 
@@ -92,66 +92,17 @@ module RDKit
 
       socket = @server_socket.accept_nonblock
 
-      @command_parsers[socket] = CommandParser.new
-
-      @clients[socket] = Fiber.new do
-         with_error_handling(socket) do |io|
-           loop { process(io); Fiber.yield }
-         end
-      end
+      @clients[socket] = Client.new(socket, runner, @logger)
 
       @logger.debug "client #{socket} connected"
 
       return @clients[socket]
     end
 
-    def process(io)
-      feed_parser(io)
-
-      until (reply = get_parser_reply(io)) == false
-        send_response(io, reply)
-      end
-    end
-
-    def feed_parser(io)
-      cmd = io.readpartial(1024)
-
-      Introspection::Stats.incr(:total_net_input_bytes, cmd.bytesize)
-
-      @command_parsers[io].feed(cmd)
-    end
-
-    def get_parser_reply(io)
-      @command_parsers[io].gets
-    end
-
-    def send_response(io, cmd)
-      resp, usec = SlowLog.monitor(cmd) { runner.resp(cmd) }
-
-      Introspection::Commandstats.record(cmd.first, usec)
-      Introspection::Stats.incr(:total_net_output_bytes, resp.bytesize)
-
-      @logger.debug(resp)
-
-      io.write(resp)
-    end
-
-    def with_error_handling(socket, &block)
-
-      block.call(socket)
-
-    rescue Errno::ECONNRESET, EOFError => e
-      # client disconnected
-      @logger.debug "client #{socket.inspect} has disconnected"
-      @logger.debug e
-      @command_parsers.delete(socket)
-      @clients.delete(socket)
-    rescue ProtocolError => e
-      # client protocol error, force disconnect
-      @logger.debug "client protocol error"
-      @logger.debug e
-      socket.close
-      @command_parsers.delete(socket)
+    def process(socket)
+      client = @clients[socket]
+      client.resume
+    rescue ClientDisconnectedError => e
       @clients.delete(socket)
     end
 
@@ -166,9 +117,7 @@ module RDKit
             if socket == @server_socket
               add_client
             else
-              # client is a Fiber
-              client = @clients[socket]
-              client.resume
+              process(socket)
             end
           end
         end

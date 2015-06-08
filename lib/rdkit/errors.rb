@@ -10,6 +10,8 @@ module RDKit
 
   class IllegalArgumentError < ProtocolError; end
 
+  class ClientDisconnectedError < RDKitError; end
+
   class NotImplementedError < RDKitError; end
 
   class SDKRequirementNotMetError < RDKitError; end

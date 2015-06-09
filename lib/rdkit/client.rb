@@ -4,8 +4,10 @@ module RDKit
     attr_accessor :name
     attr_accessor :fd
     attr_accessor :last_command
+    attr_reader   :socket
 
     def initialize(socket, server)
+      @server = server
       @socket = socket
       @runner = server.runner
       @command_parser = CommandParser.new
@@ -29,13 +31,17 @@ module RDKit
     def info
       {
         id:   @id,
-        addr: @socket.remote_address.inspect_sockaddr,
+        addr: socket_addr,
         fd:   @socket.fileno,
         name: @name,
         age:  age,
         idle: idle,
         cmd:  @last_command
       }
+    end
+
+    def socket_addr
+      @socket.remote_address.inspect_sockaddr
     end
 
     def name=(name)
@@ -101,6 +107,12 @@ module RDKit
 
     def send_response(cmd)
       @last_command = cmd.first
+
+      @server.monitors.each do |client|
+        msg = "+#{Time.now.to_f} [#{client.socket_addr}] #{ cmd.map { |c| %Q{"#{c}"}}.join(' ') }\r\n"
+
+        client.socket.write(msg)
+      end
 
       resp, usec = SlowLog.monitor(cmd) { @runner.resp(cmd) }
 

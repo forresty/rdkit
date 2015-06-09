@@ -12,6 +12,7 @@ module RDKit
     attr_reader :host, :port
     attr_reader :logger
     attr_reader :clients
+    attr_reader :monitors
 
     def initialize(host, port)
       @host, @port = host, port
@@ -22,6 +23,7 @@ module RDKit
       @client_id_seq = 0
 
       @clients = Hash.new
+      @monitors = []
 
       @logger = Logger.new
 
@@ -113,6 +115,7 @@ module RDKit
       @current_client = client
       client.resume
     rescue ClientDisconnectedError => e
+      @monitors.delete(client)
       delete(socket)
     end
 

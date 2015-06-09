@@ -211,6 +211,7 @@ Since it is single-threaded, the count will be correct:
 | `config`  | `get`, `set`, `resetstat`    |                                             |
 | `slowlog` | full                         |                                             |
 | `client`  | `getname`, `setname`, `list` |                                             |
+| `monitor` | full                         |                                             |
 
 ## Development
 

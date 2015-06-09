@@ -29,6 +29,12 @@ module RDKit
       [t.to_i, t.usec].map(&:to_s)
     end
 
+    def monitor
+      server.monitors << server.current_client
+
+      'OK'
+    end
+
     def config(cmd, *args)
       execute_subcommand('config', %w{ get set resetstat }, cmd, *args)
     end

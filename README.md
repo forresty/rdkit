@@ -212,6 +212,7 @@ Since it is single-threaded, the count will be correct:
 | `slowlog` | full                         |                                             |
 | `client`  | `getname`, `setname`, `list` |                                             |
 | `monitor` | full                         |                                             |
+| `debug`   | `sleep`                      |                                             |
 
 ## Development
 

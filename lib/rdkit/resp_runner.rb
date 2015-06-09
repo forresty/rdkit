@@ -47,6 +47,10 @@ module RDKit
       execute_subcommand('client', %w{ list getname setname }, cmd, *args)
     end
 
+    def debug(cmd, *args)
+      execute_subcommand('debug', %w{ sleep }, cmd, *args)
+    end
+
     private
 
     def execute_subcommand(base, valid_subcommands, subcommand, *args)
@@ -136,6 +140,17 @@ module RDKit
       end
     end
     include ClientSubcommands
+
+    module DebugSubcommands
+      private
+
+      def debug_sleep(sec)
+        sleep sec.to_i
+
+        'OK'
+      end
+    end
+    include DebugSubcommands
 
     def call(cmd)
       @logger ||= Logger.new

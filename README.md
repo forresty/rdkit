@@ -1,6 +1,6 @@
 # RDKit
 
-RDKit is a simple toolkit to write Redis-like, single-threaded multiplexing-IO server.
+`RDKit` is a simple toolkit to write Redis-like, single-threaded multiplexing-IO server.
 
 The server speaks [Redis RESP protocol](http://redis.io/topics/protocol), so you can reuse many Redis-compatible clients and tools such as:
 
@@ -10,7 +10,9 @@ The server speaks [Redis RESP protocol](http://redis.io/topics/protocol), so you
 
 And a lot more.
 
-`RDKit` is used to power the [520 Love Radio](http://s.weibo.com/weibo/same%2520%25E7%2594%25B5%25E5%258F%25B0) service of [same.com](http://same.com)
+`RDKit` is used to power:
+
+- [520 Love Radio](http://s.weibo.com/weibo/same%2520%25E7%2594%25B5%25E5%258F%25B0) service of [same.com](http://same.com)
 
 [![Code Climate](https://codeclimate.com/github/forresty/rdkit/badges/gpa.svg)](https://codeclimate.com/github/forresty/rdkit)
 [![Build Status](https://travis-ci.org/forresty/rdkit.svg?branch=master)](https://travis-ci.org/forresty/rdkit)

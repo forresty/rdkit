@@ -35,6 +35,10 @@ module RDKit
       'OK'
     end
 
+    def shutdown
+      server.stop
+    end
+
     def config(cmd, *args)
       execute_subcommand('config', %w{ get set resetstat }, cmd, *args)
     end

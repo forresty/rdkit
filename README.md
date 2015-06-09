@@ -201,18 +201,19 @@ Since it is single-threaded, the count will be correct:
 
 ### Implemented Redis Commands
 
-| command   | support                      | note                                        |
-|-----------|------------------------------|---------------------------------------------|
-| `info`    | full                         |                                             |
-| `ping`    | full                         |                                             |
-| `echo`    | full                         |                                             |
-| `time`    | full                         |                                             |
-| `select`  | partial/compatible           | `redis-benchmark` requires `select` command |
-| `config`  | `get`, `set`, `resetstat`    |                                             |
-| `slowlog` | full                         |                                             |
-| `client`  | `getname`, `setname`, `list` |                                             |
-| `monitor` | full                         |                                             |
-| `debug`   | `sleep`                      |                                             |
+| command    | support                      | note                                        |
+|------------|------------------------------|---------------------------------------------|
+| `info`     | full                         |                                             |
+| `ping`     | full                         |                                             |
+| `echo`     | full                         |                                             |
+| `time`     | full                         |                                             |
+| `select`   | partial/compatible           | `redis-benchmark` requires `select` command |
+| `config`   | `get`, `set`, `resetstat`    |                                             |
+| `slowlog`  | full                         |                                             |
+| `client`   | `getname`, `setname`, `list` |                                             |
+| `monitor`  | full                         |                                             |
+| `debug`    | `sleep`                      |                                             |
+| `shutdown` | full                         |                                             |
 
 ## Development
 

@@ -16,7 +16,7 @@ module RDKit
 
       it 'composes errors' do
         error = ArgumentError.new('not found')
-        expect(subject.compose(error)).to eq("-not found\r\n")
+        expect(subject.compose(error)).to eq("-ERR not found\r\n")
       end
 
       it 'composes empty array' do
@@ -33,7 +33,7 @@ module RDKit
 
       it 'composes array of mix-typed elements' do
         transformation = {
-          ['Foo', StandardError.new('Bar')] => "*2\r\n$3\r\nFoo\r\n-Bar\r\n",
+          ['Foo', StandardError.new('Bar')] => "*2\r\n$3\r\nFoo\r\n-ERR Bar\r\n",
           [1, 2, 3, 4, 'foobar'] => "*5\r\n:1\r\n:2\r\n:3\r\n:4\r\n$6\r\nfoobar\r\n"
         }
 
@@ -48,7 +48,7 @@ module RDKit
 
       it 'composes array of arrays' do
         data = [[1, 2, 3], ['Foo', StandardError.new('Bar')]]
-        expected = "*2\r\n*3\r\n:1\r\n:2\r\n:3\r\n*2\r\n$3\r\nFoo\r\n-Bar\r\n"
+        expected = "*2\r\n*3\r\n:1\r\n:2\r\n:3\r\n*2\r\n$3\r\nFoo\r\n-ERR Bar\r\n"
 
         expect(subject.compose(data)).to eq(expected)
       end

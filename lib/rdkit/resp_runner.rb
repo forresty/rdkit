@@ -12,11 +12,8 @@ module RDKit
       RESP.compose(e)
     end
 
+    include SimpleCommands
     include DBCommands
-
-    def ping
-      'PONG'
-    end
 
     # 获取服务器状态
     def info(section='default')
@@ -27,16 +24,6 @@ module RDKit
           "# #{type.capitalize}\r\n" + value.map { |k, v| "#{k}:#{v}" }.join("\r\n") + "\r\n"
         end.join("\r\n") + "\r\n"
       end
-    end
-
-    def echo(message)
-      message
-    end
-
-    def time
-      t = Time.now
-
-      [t.to_i, t.usec].map(&:to_s)
     end
 
     def monitor

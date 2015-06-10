@@ -5,6 +5,10 @@ module RDKit
     def initialize(index=0)
       @index = index
 
+      flush!
+    end
+
+    def flush!
       @objects = {}
     end
 

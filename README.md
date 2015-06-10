@@ -223,6 +223,7 @@ Since it is single-threaded, the count will be correct:
 | `llen`     | full                                 |                                             |
 | `lrange`   | partial (not fully tested)           |                                             |
 | `exists`   | full                                 |                                             |
+| `flushdb`  | full                                 |                                             |
 
 ## Development
 

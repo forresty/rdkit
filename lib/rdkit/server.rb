@@ -86,6 +86,10 @@ module RDKit
       end
     end
 
+    def flushdb!
+      @current_db.flush!
+    end
+
     private
 
     def sanity_check!

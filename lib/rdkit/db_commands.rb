@@ -53,6 +53,15 @@ module RDKit
     end
     include KeyCommands
 
+    module ServerCommands
+      def flushdb
+        server.flushdb!
+
+        'OK'
+      end
+    end
+    include ServerCommands
+
     private
 
     def db

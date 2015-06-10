@@ -54,6 +54,14 @@ module RDKit
       end
     end
 
+    describe '#set' do
+      it 'sets string value' do
+        expect(subject.get('foo')).to eq(nil)
+        subject.set('foo', 'bar')
+        expect(subject.get('foo')).to eq('bar')
+      end
+    end
+
     describe '#call' do
       it 'raise UnknownCommandError on obscure command' do
         expect { subject.__send__(:call, 'xx') }.to raise_exception(UnknownCommandError)

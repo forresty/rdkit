@@ -215,6 +215,8 @@ Since it is single-threaded, the count will be correct:
 | `monitor`  | full                                 |                                             |
 | `debug`    | `sleep`                              |                                             |
 | `shutdown` | full                                 |                                             |
+| `get`      | full                                 |                                             |
+| `set`      | without options                      |                                             |
 
 ## Development
 

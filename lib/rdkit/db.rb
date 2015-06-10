@@ -9,11 +9,15 @@ module RDKit
     end
 
     def get(key)
-      @objects[key]
+      if object = @objects[key]
+        raise WrongTypeError unless object.type == :string
+
+        object.value
+      end
     end
 
     def set(key, value)
-      @objects[key] = value
+      @objects[key] = RDObject.string(value)
     end
   end
 end

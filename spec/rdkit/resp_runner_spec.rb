@@ -15,6 +15,10 @@ module RDKit
     it { is_expected.to respond_to :time }
     it { is_expected.to respond_to :config }
     it { is_expected.to respond_to :slowlog }
+    it { is_expected.to respond_to :get }
+    it { is_expected.to respond_to :set }
+    it { is_expected.to respond_to :del }
+    it { is_expected.to respond_to :keys }
 
     describe '#resp' do
       it 'generates RESP response' do

@@ -218,6 +218,7 @@ Since it is single-threaded, the count will be correct:
 | `get`      | full                                 |                                             |
 | `set`      | without options                      |                                             |
 | `del`      | full                                 |                                             |
+| `keys`     | without pattern (return all)         |                                             |
 
 ## Development
 

@@ -23,5 +23,9 @@ module RDKit
     def del(keys)
       keys.select { |key| @objects.delete(key) }.count
     end
+
+    def filter_keys(pattern)
+      @objects.keys
+    end
   end
 end

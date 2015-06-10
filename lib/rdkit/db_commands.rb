@@ -24,6 +24,10 @@ module RDKit
       'OK'
     end
 
+    def keys(pattern)
+      db.filter_keys(pattern)
+    end
+
     private
 
     def db

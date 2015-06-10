@@ -24,8 +24,8 @@ module RDKit
     include StringCommands
 
     module KeyCommands
-      def del(*keys)
-        db.del(keys)
+      def del(key, *more_keys)
+        db.del(more_keys.unshift(key))
       end
 
       def keys(pattern)

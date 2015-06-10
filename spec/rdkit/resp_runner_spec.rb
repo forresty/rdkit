@@ -76,6 +76,10 @@ module RDKit
         expect(subject.del('foo2', 'foo3', 'foo4')).to eq(0)
         expect(subject.get('foo2')).to eq(nil)
       end
+
+      it 'does not allow empty args' do
+        expect { subject.__send__(:call, 'del') }.to raise_exception(WrongNumberOfArgumentError)
+      end
     end
 
     describe '#call' do

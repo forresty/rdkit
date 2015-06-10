@@ -1,5 +1,3 @@
-require 'newrelic_rpm'
-
 module RDKit
   class Server
     HZ = 10
@@ -17,7 +15,6 @@ module RDKit
       @host, @port = host, port
 
       @cycles = 0
-      @peak_memory = 0
       @peak_connected_clients = 0
       @client_id_seq = 0
 
@@ -62,6 +59,8 @@ module RDKit
       exit
     end
 
+    include MemoryMonitoring
+
     def introspection
       {
         server: {
@@ -93,16 +92,6 @@ module RDKit
     end
 
     private
-
-    def used_memory_rss_in_mb
-      update_peak_memory!
-
-      '%0.2f' % used_memory_rss + 'M'
-    end
-
-    def used_memory_peak_in_mb
-      '%0.2f' % @peak_memory + 'M'
-    end
 
     def add_client
       Introspection::Stats.incr(:total_connections_received)
@@ -151,16 +140,8 @@ module RDKit
       end
     end
 
-    def update_peak_memory!
-      @peak_memory = [@peak_memory, used_memory_rss].max
-    end
-
     def update_peak_connected_clients!
       @peak_connected_clients = [@peak_connected_clients, @clients.size].max
-    end
-
-    def used_memory_rss
-      NewRelic::Agent::Samplers::MemorySampler.new.sampler.get_sample
     end
   end
 end

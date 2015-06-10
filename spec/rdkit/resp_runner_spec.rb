@@ -62,6 +62,18 @@ module RDKit
       end
     end
 
+    describe '#del' do
+      it 'deletes keys' do
+        subject.set('foo1', 'bar')
+        subject.set('foo2', 'bar')
+        subject.set('foo3', 'bar')
+
+        expect(subject.del('foo2', 'foo3', 'foo4')).to eq(2)
+        expect(subject.del('foo2', 'foo3', 'foo4')).to eq(0)
+        expect(subject.get('foo2')).to eq(nil)
+      end
+    end
+
     describe '#call' do
       it 'raise UnknownCommandError on obscure command' do
         expect { subject.__send__(:call, 'xx') }.to raise_exception(UnknownCommandError)

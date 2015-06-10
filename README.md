@@ -217,6 +217,7 @@ Since it is single-threaded, the count will be correct:
 | `shutdown` | full                                 |                                             |
 | `get`      | full                                 |                                             |
 | `set`      | without options                      |                                             |
+| `del`      | full                                 |                                             |
 
 ## Development
 

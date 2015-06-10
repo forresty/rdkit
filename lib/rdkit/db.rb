@@ -19,5 +19,9 @@ module RDKit
     def set(key, value)
       @objects[key] = RDObject.string(value)
     end
+
+    def del(keys)
+      keys.select { |key| @objects.delete(key) }.count
+    end
   end
 end

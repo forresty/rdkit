@@ -10,6 +10,10 @@ module RDKit
       'OK'
     end
 
+    def del(*keys)
+      db.del(keys)
+    end
+
     def get(key)
       db.get(key)
     end

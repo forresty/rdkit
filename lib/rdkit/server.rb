@@ -28,24 +28,6 @@ module RDKit
       @server_up_since = Time.now
     end
 
-    def sanity_check!
-      unless @host && @port
-        raise SDKRequirementNotMetError, '@host and @port are required for server to run'
-      end
-
-      if @core.nil?
-        raise SDKRequirementNotMetError, '@core is required to represent your business logics'
-      end
-
-      if @runner.nil?
-        raise SDKRequirementNotMetError, '@runner is required to act as an RESP frontend'
-      end
-
-      if @runner.try(:server).nil?
-        raise SDKRequirementNotMetError, '@runner should have reference to server'
-      end
-    end
-
     def start
       sanity_check!
 
@@ -92,6 +74,24 @@ module RDKit
     end
 
     private
+
+    def sanity_check!
+      unless @host && @port
+        raise SDKRequirementNotMetError, '@host and @port are required for server to run'
+      end
+
+      if @core.nil?
+        raise SDKRequirementNotMetError, '@core is required to represent your business logics'
+      end
+
+      if @runner.nil?
+        raise SDKRequirementNotMetError, '@runner is required to act as an RESP frontend'
+      end
+
+      if @runner.try(:server).nil?
+        raise SDKRequirementNotMetError, '@runner should have reference to server'
+      end
+    end
 
     def add_client
       Introspection::Stats.incr(:total_connections_received)

@@ -59,6 +59,12 @@ module RDKit
 
         'OK'
       end
+
+      def flushall
+        server.flushall!
+
+        'OK'
+      end
     end
     include ServerCommands
 

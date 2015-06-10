@@ -90,6 +90,12 @@ module RDKit
       @current_db.flush!
     end
 
+    def flushall!
+      flushdb!
+
+      @all_dbs = [@current_db]
+    end
+
     private
 
     def sanity_check!

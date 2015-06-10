@@ -224,6 +224,7 @@ Since it is single-threaded, the count will be correct:
 | `lrange`   | partial (not fully tested)           |                                             |
 | `exists`   | full                                 |                                             |
 | `flushdb`  | full                                 |                                             |
+| `flushall` | full                                 |                                             |
 
 ## Development
 

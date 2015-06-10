@@ -12,15 +12,7 @@ module RDKit
       RESP.compose(e)
     end
 
-    def select(index)
-      raise InvalidDBIndexError unless (0..15).map(&:to_s).include?(index)
-
-      index = index.to_i
-
-      server.select_db!(index)
-
-      'OK'
-    end
+    include DBCommands
 
     def ping
       'PONG'

@@ -19,6 +19,8 @@ module RDKit
     it { is_expected.to respond_to :set }
     it { is_expected.to respond_to :del }
     it { is_expected.to respond_to :keys }
+    it { is_expected.to respond_to :lpush }
+    it { is_expected.to respond_to :llen }
 
     describe '#resp' do
       it 'generates RESP response' do

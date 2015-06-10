@@ -23,6 +23,17 @@ module RDKit
     end
     include StringCommands
 
+    module ListCommands
+      def lpush(key, value, *more_values)
+        db.lpush(key, [value] + more_values)
+      end
+
+      def llen(key)
+        db.llen(key)
+      end
+    end
+    include ListCommands
+
     module KeyCommands
       def del(key, *more_keys)
         db.del(more_keys.unshift(key))

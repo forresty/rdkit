@@ -219,6 +219,8 @@ Since it is single-threaded, the count will be correct:
 | `set`      | without options                      |                                             |
 | `del`      | full                                 |                                             |
 | `keys`     | without pattern (return all)         |                                             |
+| `lpush`    | full                                 |                                             |
+| `llen`     | full                                 |                                             |
 
 ## Development
 

@@ -9,8 +9,25 @@ module RDKit
           object.value = value
         end
       end
+
+      def list(elements)
+        RDList.new.tap do |object|
+          object.type = :list
+          object.value = elements
+        end
+      end
     end
 
     class << self; include ClassMethods; end
+  end
+
+  class RDList < RDObject
+    def unshift(*elements)
+      value.unshift(*elements)
+    end
+
+    def length
+      value.length
+    end
   end
 end

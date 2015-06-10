@@ -16,6 +16,8 @@ module RDKit
         when NilClass
           # Null Bulk String, not Null Array of "*-1\r\n"
           "$-1\r\n"
+        when WrongTypeError
+          "-WRONGTYPE #{data.message}\r\n"
         when StandardError
           "-ERR #{data.message}\r\n"
         else

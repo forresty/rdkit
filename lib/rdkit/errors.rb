@@ -1,6 +1,10 @@
 module RDKit
   class RDKitError < StandardError; end
 
+  class WrongTypeError < RDKitError
+    def self.exception; new('Operation against a key holding the wrong kind of value'); end
+  end
+
   class ProtocolError < RDKitError; end
   class UnknownCommandError < ProtocolError; end
 
@@ -12,6 +16,10 @@ module RDKit
   class WrongNumberOfArgumentForSubcommandError < ProtocolError; end
 
   class IllegalArgumentError < ProtocolError; end
+
+  class InvalidDBIndexError < IllegalArgumentError
+    def self.exception; new('invalid DB index'); end
+  end
 
   class WrongNumberOfArgumentError < IllegalArgumentError; end
 

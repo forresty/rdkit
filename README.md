@@ -81,11 +81,10 @@ end
 # counter/command_runner.rb
 module Counter
   class CommandRunner < RDKit::RESPRunner
-    attr_reader :server
-
     def initialize(counter, server)
+      super(server)
+
       @counter = counter
-      @server  = server
     end
 
     # every public method of this class will be accessible by clients
@@ -216,6 +215,16 @@ Since it is single-threaded, the count will be correct:
 | `monitor`  | full                                 |                                             |
 | `debug`    | `sleep`                              |                                             |
 | `shutdown` | full                                 |                                             |
+| `get`      | full                                 |                                             |
+| `set`      | without options                      |                                             |
+| `del`      | full                                 |                                             |
+| `keys`     | without pattern (return all)         |                                             |
+| `lpush`    | full                                 |                                             |
+| `llen`     | full                                 |                                             |
+| `lrange`   | partial (not fully tested)           |                                             |
+| `exists`   | full                                 |                                             |
+| `flushdb`  | full                                 |                                             |
+| `flushall` | full                                 |                                             |
 
 ## Development
 

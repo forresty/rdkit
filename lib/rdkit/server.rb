@@ -5,6 +5,7 @@ module RDKit
 
     attr_reader :server_up_since
     attr_reader :current_client
+    attr_reader :current_db
     attr_reader :runner
     attr_reader :core
     attr_reader :host, :port
@@ -22,6 +23,8 @@ module RDKit
       @monitors = []
 
       @logger = Logger.new
+      @current_db = DB.new(0)
+      @all_dbs = [@current_db]
 
       Introspection.register(self)
 
@@ -73,6 +76,26 @@ module RDKit
       @clients.values
     end
 
+    def select_db!(index)
+      if db = @all_dbs.find { |db| db.index == index }
+        @current_db = db
+      else
+        @all_dbs << DB.new(index)
+
+        @current_db = @all_dbs.last
+      end
+    end
+
+    def flushdb!
+      @current_db.flush!
+    end
+
+    def flushall!
+      flushdb!
+
+      @all_dbs = [@current_db]
+    end
+
     private
 
     def sanity_check!
@@ -88,7 +111,7 @@ module RDKit
         raise SDKRequirementNotMetError, '@runner is required to act as an RESP frontend'
       end
 
-      if @runner.try(:server).nil?
+      if @runner.server.nil?
         raise SDKRequirementNotMetError, '@runner should have reference to server'
       end
     end

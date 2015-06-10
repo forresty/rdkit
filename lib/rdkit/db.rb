@@ -54,6 +54,15 @@ module RDKit
           0
         end
       end
+
+      def lrange(key, start, stop)
+        if list = get_typed_object(key, :list)
+
+          list[start..stop]
+        else
+          []
+        end
+      end
     end
     include ListMethods
 

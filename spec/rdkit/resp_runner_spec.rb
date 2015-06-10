@@ -84,6 +84,10 @@ module RDKit
       end
     end
 
+    describe '#lrange' do
+      skip 'not implemented yet'
+    end
+
     describe '#call' do
       it 'raise UnknownCommandError on obscure command' do
         expect { subject.__send__(:call, 'xx') }.to raise_exception(UnknownCommandError)

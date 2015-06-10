@@ -221,6 +221,7 @@ Since it is single-threaded, the count will be correct:
 | `keys`     | without pattern (return all)         |                                             |
 | `lpush`    | full                                 |                                             |
 | `llen`     | full                                 |                                             |
+| `lrange`   | partial (not fully tested)           |                                             |
 
 ## Development
 

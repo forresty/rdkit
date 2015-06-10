@@ -1,7 +1,5 @@
 module RDKit
   class RESPRunner
-    include Inheritable
-
     def resp(cmd)
       RESP.compose(call(cmd))
     rescue => e

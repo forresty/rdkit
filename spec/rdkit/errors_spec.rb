@@ -6,8 +6,8 @@ module RDKit
       expect { raise SyntaxError }.to raise_exception(SyntaxError, 'syntax error')
 
       expect {
-        raise NotAnIntegerOrOutOfRangeError
-      }.to raise_exception(NotAnIntegerOrOutOfRangeError, 'value is not an integer or out of range')
+        raise ValueNotAnIntegerOrOutOfRangeError
+      }.to raise_exception(ValueNotAnIntegerOrOutOfRangeError, 'value is not an integer or out of range')
     end
   end
 end

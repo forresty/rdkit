@@ -13,7 +13,7 @@ module RDKit
   class WrongNumberOfArgumentForSubcommandError < ProtocolError; end
 
   class IllegalArgumentError < ProtocolError; end
-  class NotAnIntegerOrOutOfRangeError < IllegalArgumentError
+  class ValueNotAnIntegerOrOutOfRangeError < IllegalArgumentError
     def self.exception; new('value is not an integer or out of range'); end
   end
 

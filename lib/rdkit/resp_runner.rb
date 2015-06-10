@@ -75,7 +75,7 @@ module RDKit
       def slowlog_get(count=nil)
         if count
           if count.to_i.to_s != count
-            raise NotAnIntegerOrOutOfRangeError
+            raise ValueNotAnIntegerOrOutOfRangeError
           end
 
           SlowLog.recent(count.to_i)
@@ -169,7 +169,7 @@ module RDKit
             raise SyntaxError unless type == 'id'
 
             if id.to_i.to_s != id
-              raise NotAnIntegerOrOutOfRangeError
+              raise ValueNotAnIntegerOrOutOfRangeError
             end
 
             if client = server.clients.values.find { |client| client.id == id.to_i }

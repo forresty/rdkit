@@ -13,6 +13,11 @@ module RDKit
   class WrongNumberOfArgumentForSubcommandError < ProtocolError; end
 
   class IllegalArgumentError < ProtocolError; end
+
+  class IllegalClientNameError < IllegalArgumentError
+    def self.exception; new('Client names cannot contain spaces, newlines or special characters.'); end
+  end
+
   class ValueNotAnIntegerOrOutOfRangeError < IllegalArgumentError
     def self.exception; new('value is not an integer or out of range'); end
   end

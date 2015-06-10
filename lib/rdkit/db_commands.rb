@@ -9,5 +9,21 @@ module RDKit
 
       'OK'
     end
+
+    def get(key)
+      db.get(key)
+    end
+
+    def set(key, value)
+      db.set(key, value)
+
+      'OK'
+    end
+
+    private
+
+    def db
+      server.current_db
+    end
   end
 end

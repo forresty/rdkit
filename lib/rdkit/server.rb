@@ -11,7 +11,6 @@ module RDKit
     attr_reader :core
     attr_reader :host, :port
     attr_reader :logger
-    attr_reader :clients
     attr_reader :monitors
 
     def initialize(host, port)
@@ -87,6 +86,10 @@ module RDKit
 
     def delete(socket)
       @clients.delete(socket)
+    end
+
+    def clients
+      @clients.values
     end
 
     private

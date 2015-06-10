@@ -138,7 +138,7 @@ module RDKit
       end
 
       def client_list
-        server.clients.values.map do |client|
+        server.clients.map do |client|
           client.info.map { |k, v| "#{k}=#{v}" }.join(' ')
         end.join("\n") + "\n"
       end
@@ -168,7 +168,7 @@ module RDKit
                 raise ValueNotAnIntegerOrOutOfRangeError
               end
 
-              if client = server.clients.values.find { |client| client.id == id }
+              if client = server.clients.find { |client| client.id == id }
                 killed += 1
                 client.kill!
               end
@@ -184,7 +184,7 @@ module RDKit
       end
 
       def kill_by_addr(addr)
-        if client = server.clients.values.find { |c| c.socket_addr == addr }
+        if client = server.clients.find { |c| c.socket_addr == addr }
           client.kill!
 
           true

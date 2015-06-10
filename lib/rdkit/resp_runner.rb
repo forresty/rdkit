@@ -148,11 +148,7 @@ module RDKit
 
         if args.size == 1
           # client kill HOST:PORT
-          addr = args.first
-
-          if client = server.clients.values.find { |c| c.socket_addr == addr }
-            client.kill!
-
+          if kill_by_addr(args.first)
             'OK'
           else
             raise NoSuchClientError
@@ -162,21 +158,36 @@ module RDKit
 
           killed = 0
           while args.size > 0
-            type, id = args.shift.downcase, args.shift
+            type, arg = args.shift.downcase, args.shift
 
-            raise SyntaxError unless type == 'id'
+            case type
+            when 'id'
+              id = arg.to_i
 
-            if id.to_i.to_s != id
-              raise ValueNotAnIntegerOrOutOfRangeError
-            end
+              if id.to_s != arg
+                raise ValueNotAnIntegerOrOutOfRangeError
+              end
 
-            if client = server.clients.values.find { |client| client.id == id.to_i }
-              killed += 1
-              client.kill!
+              if client = server.clients.values.find { |client| client.id == id }
+                killed += 1
+                client.kill!
+              end
+            when 'addr'
+              killed += 1 if kill_by_addr(arg)
+            else
+              raise SyntaxError
             end
           end
 
           killed
+        end
+      end
+
+      def kill_by_addr(addr)
+        if client = server.clients.values.find { |c| c.socket_addr == addr }
+          client.kill!
+
+          true
         end
       end
     end

@@ -10,23 +10,29 @@ module RDKit
       'OK'
     end
 
-    def del(*keys)
-      db.del(keys)
-    end
+    module StringCommands
+      def get(key)
+        db.get(key)
+      end
 
-    def get(key)
-      db.get(key)
-    end
+      def set(key, value)
+        db.set(key, value)
 
-    def set(key, value)
-      db.set(key, value)
-
-      'OK'
+        'OK'
+      end
     end
+    include StringCommands
 
-    def keys(pattern)
-      db.filter_keys(pattern)
+    module KeyCommands
+      def del(*keys)
+        db.del(keys)
+      end
+
+      def keys(pattern)
+        db.filter_keys(pattern)
+      end
     end
+    include KeyCommands
 
     private
 

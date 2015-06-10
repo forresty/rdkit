@@ -151,8 +151,6 @@ module RDKit
           addr = args.first
 
           if client = server.clients.values.find { |c| c.socket_addr == addr }
-            require 'pry'
-            binding.pry
             client.kill!
 
             'OK'

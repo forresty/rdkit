@@ -1,5 +1,11 @@
 module RDKit
   class RESPRunner
+    attr_reader :server
+
+    def initialize(server)
+      @server = server
+    end
+
     def resp(cmd)
       RESP.compose(call(cmd))
     rescue => e

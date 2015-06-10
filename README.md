@@ -81,11 +81,10 @@ end
 # counter/command_runner.rb
 module Counter
   class CommandRunner < RDKit::RESPRunner
-    attr_reader :server
-
     def initialize(counter, server)
+      super(server)
+
       @counter = counter
-      @server  = server
     end
 
     # every public method of this class will be accessible by clients

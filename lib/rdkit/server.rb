@@ -88,7 +88,7 @@ module RDKit
         raise SDKRequirementNotMetError, '@runner is required to act as an RESP frontend'
       end
 
-      if @runner.try(:server).nil?
+      if @runner.server.nil?
         raise SDKRequirementNotMetError, '@runner should have reference to server'
       end
     end

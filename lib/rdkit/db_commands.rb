@@ -46,6 +46,10 @@ module RDKit
       def keys(pattern)
         db.filter_keys(pattern)
       end
+
+      def exists(key)
+        db.exists?(key) ? 1 : 0
+      end
     end
     include KeyCommands
 

@@ -29,6 +29,10 @@ module RDKit
       def filter_keys(pattern)
         objects.keys
       end
+
+      def exists?(key)
+        objects.include?(key)
+      end
     end
     include KeyMethods
 

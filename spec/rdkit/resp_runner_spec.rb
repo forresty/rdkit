@@ -84,6 +84,14 @@ module RDKit
       end
     end
 
+    describe '#exists' do
+      it 'tests if key exists' do
+        expect(subject.exists('key')).to eq(0)
+        subject.set('key', 'value')
+        expect(subject.exists('key')).to eq(1)
+      end
+    end
+
     describe '#lrange' do
       skip 'not implemented yet'
     end

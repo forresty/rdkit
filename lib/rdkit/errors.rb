@@ -3,7 +3,6 @@ module RDKit
 
   class ProtocolError < RDKitError; end
   class UnknownCommandError < ProtocolError; end
-  class WrongNumberOfArgumentError < ProtocolError; end
 
   class SyntaxError < ProtocolError
     def self.exception; new('syntax error'); end
@@ -13,6 +12,8 @@ module RDKit
   class WrongNumberOfArgumentForSubcommandError < ProtocolError; end
 
   class IllegalArgumentError < ProtocolError; end
+
+  class WrongNumberOfArgumentError < IllegalArgumentError; end
 
   class IllegalClientNameError < IllegalArgumentError
     def self.exception; new('Client names cannot contain spaces, newlines or special characters.'); end

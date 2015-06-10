@@ -40,6 +40,10 @@ module RDKit
       it 'raise UnknownCommandError on obscure command' do
         expect { subject.__send__(:call, 'xx') }.to raise_exception(UnknownCommandError)
       end
+
+      it 'raise WrongNumberOfArgumentError when it should' do
+        expect { subject.__send__(:call, %w{ ping pong }) }.to raise_exception(WrongNumberOfArgumentError)
+      end
     end
   end
 end

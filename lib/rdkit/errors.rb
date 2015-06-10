@@ -5,12 +5,20 @@ module RDKit
   class UnknownCommandError < ProtocolError; end
   class WrongNumberOfArgumentError < ProtocolError; end
 
+  class SyntaxError < ProtocolError
+    def self.exception; new('syntax error'); end
+  end
+
   class UnknownSubcommandError < ProtocolError; end
   class WrongNumberOfArgumentForSubcommandError < ProtocolError; end
 
   class IllegalArgumentError < ProtocolError; end
+  class NotAnIntegerOrOutOfRangeError < IllegalArgumentError
+    def self.exception; new('value is not an integer or out of range'); end
+  end
 
   class ClientDisconnectedError < RDKitError; end
+  class NoSuchClientError < RDKitError; end
 
   class NotImplementedError < RDKitError; end
 

@@ -16,6 +16,24 @@ module RDKit
       it 'generates RESP response' do
         expect(subject.resp('PING')).to match(/PONG/)
       end
+
+      it 'generate RESP error on exception' do
+        expect(subject.resp('xx')).to match(/unknown command/)
+      end
+    end
+
+    describe '#echo' do
+      it 'echo' do
+        expect(subject.echo('haha')).to eq('haha')
+      end
+    end
+
+    describe '#time' do
+      it 'returns server time' do
+        Timecop.freeze do
+          expect(subject.time).to eq([Time.now.to_i, Time.now.usec].map(&:to_s))
+        end
+      end
     end
 
     describe '#call' do

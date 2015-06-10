@@ -40,6 +40,20 @@ module RDKit
       end
     end
 
+    describe '#select' do
+      it 'selects DB by index' do
+        expect(subject.server.current_db.index).to eq(0)
+
+        expect { subject.select('x') }.to raise_exception(InvalidDBIndexError)
+        expect { subject.select('-1') }.to raise_exception(InvalidDBIndexError)
+        expect { subject.select('16') }.to raise_exception(InvalidDBIndexError)
+
+        subject.select('15')
+
+        expect(subject.server.current_db.index).to eq(15)
+      end
+    end
+
     describe '#call' do
       it 'raise UnknownCommandError on obscure command' do
         expect { subject.__send__(:call, 'xx') }.to raise_exception(UnknownCommandError)

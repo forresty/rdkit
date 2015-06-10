@@ -13,6 +13,10 @@ module RDKit
 
   class IllegalArgumentError < ProtocolError; end
 
+  class InvalidDBIndexError < IllegalArgumentError
+    def self.exception; new('invalid DB index'); end
+  end
+
   class WrongNumberOfArgumentError < IllegalArgumentError; end
 
   class IllegalClientNameError < IllegalArgumentError

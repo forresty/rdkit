@@ -12,6 +12,20 @@ module RDKit
       RESP.compose(e)
     end
 
+    def select(index)
+      raise InvalidDBIndexError unless (0..15).map(&:to_s).include?(index)
+
+      index = index.to_i
+
+      server.select_db!(index)
+
+      'OK'
+    end
+
+    def ping
+      'PONG'
+    end
+
     # 获取服务器状态
     def info(section='default')
       info = Introspection.info(section)
@@ -226,12 +240,5 @@ module RDKit
     rescue ArgumentError => e
       raise WrongNumberOfArgumentError, "wrong number of arguments for '#{cmd}' command"
     end
-
-    module RedisCompatibility
-      def select(id); 'OK'; end
-      def ping; 'PONG'; end
-    end
-
-    include RedisCompatibility
   end
 end

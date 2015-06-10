@@ -48,7 +48,7 @@ module RDKit
     end
 
     def client(cmd, *args)
-      execute_subcommand('client', %w{ list getname setname }, cmd, *args)
+      execute_subcommand('client', %w{ list kill getname setname }, cmd, *args)
     end
 
     def debug(cmd, *args)
@@ -75,7 +75,7 @@ module RDKit
       def slowlog_get(count=nil)
         if count
           if count.to_i.to_s != count
-            raise IllegalArgumentError, 'value is not an integer or out of range'
+            raise NotAnIntegerOrOutOfRangeError
           end
 
           SlowLog.recent(count.to_i)
@@ -141,6 +141,45 @@ module RDKit
         server.clients.values.map do |client|
           client.info.map { |k, v| "#{k}=#{v}" }.join(' ')
         end.join("\n") + "\n"
+      end
+
+      def client_kill(*args)
+        raise SyntaxError if args.size == 0
+
+        if args.size == 1
+          # client kill HOST:PORT
+          addr = args.first
+
+          if client = server.clients.values.find { |c| c.socket_addr == addr }
+            require 'pry'
+            binding.pry
+            client.kill!
+
+            'OK'
+          else
+            raise NoSuchClientError
+          end
+        else
+          raise SyntaxError if args.size % 2 != 0
+
+          killed = 0
+          while args.size > 0
+            type, id = args.shift.downcase, args.shift
+
+            raise SyntaxError unless type == 'id'
+
+            if id.to_i.to_s != id
+              raise NotAnIntegerOrOutOfRangeError
+            end
+
+            if client = server.clients.values.find { |client| client.id == id.to_i }
+              killed += 1
+              client.kill!
+            end
+          end
+
+          killed
+        end
       end
     end
     include ClientSubcommands

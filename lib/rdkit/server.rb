@@ -85,6 +85,10 @@ module RDKit
       }
     end
 
+    def delete(socket)
+      @clients.delete(socket)
+    end
+
     private
 
     def used_memory_rss_in_mb
@@ -117,10 +121,6 @@ module RDKit
     rescue ClientDisconnectedError => e
       @monitors.delete(client)
       delete(socket)
-    end
-
-    def delete(socket)
-      @clients.delete(socket)
     end
 
     def run_acceptor

@@ -56,6 +56,11 @@ module RDKit
       @name = name
     end
 
+    def kill!
+      @socket.close
+      @server.delete(@socket)
+    end
+
     private
 
     def age
@@ -70,7 +75,7 @@ module RDKit
 
       block.call(socket)
 
-    rescue Errno::ECONNRESET, EOFError => e
+    rescue IOError, Errno::ECONNRESET, EOFError => e
       # client disconnected
       @logger.debug "client #{socket.inspect} has disconnected"
       @logger.debug e

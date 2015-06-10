@@ -18,7 +18,9 @@ module RDKit
   end
 
   class ClientDisconnectedError < RDKitError; end
-  class NoSuchClientError < RDKitError; end
+  class NoSuchClientError < RDKitError
+    def self.exception; new('No such client'); end
+  end
 
   class NotImplementedError < RDKitError; end
 

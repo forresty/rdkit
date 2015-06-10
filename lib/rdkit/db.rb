@@ -8,48 +8,66 @@ module RDKit
       @objects = {}
     end
 
-    def get(key)
-      if object = @objects[key]
-        raise WrongTypeError unless object.type == :string
+    module StringMethods
+      def get(key)
+        if object = get_typed_object(key, :string)
+          object.value
+        end
+      end
 
-        object.value
+      def set(key, value)
+        objects[key] = RDObject.string(value)
       end
     end
+    include StringMethods
 
-    def set(key, value)
-      @objects[key] = RDObject.string(value)
-    end
+    module KeyMethods
+      def del(keys)
+        keys.select { |key| objects.delete(key) }.count
+      end
 
-    def del(keys)
-      keys.select { |key| @objects.delete(key) }.count
-    end
-
-    def filter_keys(pattern)
-      @objects.keys
-    end
-
-    def lpush(key, elements)
-      if list = @objects[key]
-        raise WrongTypeError unless list.type == :list
-
-        list.unshift(*elements)
-
-        list.length
-      else
-        # key not exist
-        @objects[key] = RDObject.list(elements)
-
-        @objects[key].length
+      def filter_keys(pattern)
+        objects.keys
       end
     end
+    include KeyMethods
 
-    def llen(key)
-      if list = @objects[key]
-        raise WrongTypeError unless list.type == :list
+    module ListMethods
+      def lpush(key, elements)
+        if list = get_typed_object(key, :list)
+          list.unshift(*elements)
 
-        list.length
-      else
-        0
+          list.length
+        else
+          # key not exist
+          objects[key] = RDObject.list(elements)
+
+          objects[key].length
+        end
+      end
+
+      def llen(key)
+        if list = get_typed_object(key, :list)
+
+          list.length
+        else
+          0
+        end
+      end
+    end
+    include ListMethods
+
+    private
+
+    def objects
+      @objects
+    end
+
+    def get_typed_object(key, type)
+      if object = objects[key]
+        raise WrongTypeError unless object.type == type
+
+        object
       end
     end
   end

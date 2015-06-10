@@ -31,6 +31,10 @@ module RDKit
       def llen(key)
         db.llen(key)
       end
+
+      def lrange(key, start, stop)
+        db.lrange(key, start, stop)
+      end
     end
     include ListCommands
 

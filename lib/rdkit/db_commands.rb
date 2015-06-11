@@ -69,6 +69,10 @@ module RDKit
       def scard(key)
         db.scard(key)
       end
+
+      def smembers(key)
+        db.smembers(key)
+      end
     end
     include SetCommands
 

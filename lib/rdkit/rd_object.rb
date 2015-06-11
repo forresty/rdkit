@@ -48,5 +48,9 @@ module RDKit
     def size
       value.size
     end
+
+    def to_a
+      value.to_a
+    end
   end
 end

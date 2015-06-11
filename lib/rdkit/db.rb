@@ -97,6 +97,15 @@ module RDKit
           0
         end
       end
+
+      def smembers(key)
+        if set = get_typed_object(key, :set)
+
+          set.to_a
+        else
+          []
+        end
+      end
     end
     include SetMethods
 

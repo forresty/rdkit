@@ -229,6 +229,7 @@ Since it is single-threaded, the count will be correct:
 | `mset`     | full                                 |                                             |
 | `strlen`   | full                                 |                                             |
 | `sadd`     | full                                 |                                             |
+| `scard`    | full                                 |                                             |
 
 ## Development
 

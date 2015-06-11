@@ -88,6 +88,15 @@ module RDKit
           objects[key].size
         end
       end
+
+      def scard(key)
+        if set = get_typed_object(key, :set)
+
+          set.size
+        else
+          0
+        end
+      end
     end
     include SetMethods
 

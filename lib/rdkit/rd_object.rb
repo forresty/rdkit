@@ -16,6 +16,15 @@ module RDKit
           object.value = elements
         end
       end
+
+      def set(elements)
+        require "set"
+
+        RDSet.new.tap do |set|
+          set.type = :set
+          set.value = Set.new(elements)
+        end
+      end
     end
 
     class << self; include ClassMethods; end
@@ -28,6 +37,16 @@ module RDKit
 
     def length
       value.length
+    end
+  end
+
+  class RDSet < RDObject
+    def add(element)
+      value.add(element)
+    end
+
+    def size
+      value.size
     end
   end
 end

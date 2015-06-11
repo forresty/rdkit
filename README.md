@@ -228,6 +228,7 @@ Since it is single-threaded, the count will be correct:
 | `mget`     | full                                 |                                             |
 | `mset`     | full                                 |                                             |
 | `strlen`   | full                                 |                                             |
+| `sadd`     | full                                 |                                             |
 
 ## Development
 

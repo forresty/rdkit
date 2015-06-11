@@ -61,6 +61,17 @@ module RDKit
     end
     include ListCommands
 
+    module SetCommands
+      def sadd(key, value, *more_values)
+        db.sadd(key, [value] + more_values)
+      end
+
+      def scard(key)
+        db.scard(key)
+      end
+    end
+    include SetCommands
+
     module KeyCommands
       def del(key, *more_keys)
         db.del(more_keys.unshift(key))

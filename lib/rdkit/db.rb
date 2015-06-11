@@ -74,6 +74,23 @@ module RDKit
     end
     include ListMethods
 
+    module SetMethods
+      def sadd(key, elements)
+        if set = get_typed_object(key, :set)
+          size0 = set.size
+
+          elements.each { |e| set.add(e) }
+
+          set.size - size0
+        else
+          objects[key] = RDObject.set(elements)
+
+          objects[key].size
+        end
+      end
+    end
+    include SetMethods
+
     private
 
     def objects

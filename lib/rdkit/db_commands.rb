@@ -20,6 +20,10 @@ module RDKit
 
         'OK'
       end
+
+      def mget(key, *more_keys)
+        ([key] + more_keys).map { |k| db.get(k) }
+      end
     end
     include StringCommands
 

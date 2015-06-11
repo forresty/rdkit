@@ -68,6 +68,14 @@ module RDKit
       end
     end
 
+    describe '#mget' do
+      it 'returns nil when not found' do
+        subject.set('foo2', 'bar')
+
+        expect(subject.mget('foo1', 'foo2', 'foo3')).to eq([nil, 'bar', nil])
+      end
+    end
+
     describe '#del' do
       it 'deletes keys' do
         subject.set('foo1', 'bar')

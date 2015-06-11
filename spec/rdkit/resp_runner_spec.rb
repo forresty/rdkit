@@ -74,6 +74,13 @@ module RDKit
 
         expect(subject.mget('foo1', 'foo2', 'foo3')).to eq([nil, 'bar', nil])
       end
+
+      it 'returns nil on WRONTYPEd objects' do
+        subject.set('foo2', 'bar')
+        subject.lpush('foo1', '1')
+
+        expect(subject.mget('foo1', 'foo2', 'foo3')).to eq([nil, 'bar', nil])
+      end
     end
 
     describe '#del' do

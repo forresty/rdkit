@@ -22,7 +22,7 @@ module RDKit
       end
 
       def mget(key, *more_keys)
-        ([key] + more_keys).map { |k| db.get(k) }
+        ([key] + more_keys).map { |k| db.get(k) rescue nil }
       end
     end
     include StringCommands

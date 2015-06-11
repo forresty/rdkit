@@ -24,6 +24,17 @@ module RDKit
       def mget(key, *more_keys)
         ([key] + more_keys).map { |k| db.get(k) rescue nil }
       end
+
+      def mset(key, value, *more_pairs)
+        unless more_pairs.size % 2 == 0
+          raise WrongNumberOfArgumentError, "wrong number of arguments for 'mset' command"
+        end
+
+        db.set(key, value)
+        more_pairs.each_slice(2) { |key, value| db.set(key, value) }
+
+        'OK'
+      end
     end
     include StringCommands
 

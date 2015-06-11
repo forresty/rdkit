@@ -83,6 +83,21 @@ module RDKit
       end
     end
 
+    describe '#mset' do
+      it 'requires right number of args' do
+        expect { subject.__send__(:call, 'mset') }.to raise_exception(WrongNumberOfArgumentError)
+        expect { subject.__send__(:call, ['mset', 'a']) }.to raise_exception(WrongNumberOfArgumentError)
+        expect { subject.__send__(:call, ['mset', 'a', 'b', 'c']) }.to raise_exception(WrongNumberOfArgumentError)
+      end
+
+      it 'sets values' do
+        subject.mset('foo1', 'bar1')
+        subject.mset('foo2', 'bar2', 'foo3', 'bar3', 'foo4', 'bar4')
+
+        expect(subject.mget('foo1', 'foo2', 'foo3', 'foo4')).to eq(%w{ bar1 bar2 bar3 bar4 })
+      end
+    end
+
     describe '#del' do
       it 'deletes keys' do
         subject.set('foo1', 'bar')

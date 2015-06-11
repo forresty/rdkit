@@ -226,6 +226,7 @@ Since it is single-threaded, the count will be correct:
 | `flushdb`  | full                                 |                                             |
 | `flushall` | full                                 |                                             |
 | `mget`     | full                                 |                                             |
+| `mset`     | full                                 |                                             |
 
 ## Development
 

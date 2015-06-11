@@ -98,6 +98,20 @@ module RDKit
       end
     end
 
+    describe '#strlen' do
+      it 'returns bytesize' do
+        expect(subject.strlen('a')).to eq(0)
+        subject.set('a', 'hello')
+        expect(subject.strlen('a')).to eq(5)
+
+        subject.set('a', '中国') # UTF-8
+        expect(subject.strlen('a')).to eq(6)
+
+        subject.lpush('b', '1')
+        expect { subject.__send__(:call, ['strlen', 'b']) }.to raise_exception(WrongTypeError)
+      end
+    end
+
     describe '#del' do
       it 'deletes keys' do
         subject.set('foo1', 'bar')

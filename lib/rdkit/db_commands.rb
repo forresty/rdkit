@@ -35,6 +35,14 @@ module RDKit
 
         'OK'
       end
+
+      def strlen(key)
+        if str = db.get(key)
+          str.bytesize
+        else
+          0
+        end
+      end
     end
     include StringCommands
 

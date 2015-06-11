@@ -227,6 +227,7 @@ Since it is single-threaded, the count will be correct:
 | `flushall` | full                                 |                                             |
 | `mget`     | full                                 |                                             |
 | `mset`     | full                                 |                                             |
+| `strlen`   | full                                 |                                             |
 
 ## Development
 

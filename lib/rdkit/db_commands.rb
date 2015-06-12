@@ -116,6 +116,10 @@ module RDKit
       def hkeys(key)
         db.hkeys(key)
       end
+
+      def hvals(key)
+        db.hvals(key)
+      end
     end
     include HashCommands
 

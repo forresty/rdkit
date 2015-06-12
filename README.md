@@ -240,6 +240,7 @@ Since it is single-threaded, the count will be correct:
 | `hstrlen`   | full                                 |                                             |
 | `hdel`      | full                                 |                                             |
 | `hkeys`     | full                                 |                                             |
+| `hvals`     | full                                 |                                             |
 
 ## Development
 

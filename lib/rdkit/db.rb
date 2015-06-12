@@ -186,6 +186,14 @@ module RDKit
           []
         end
       end
+
+      def hvals(key)
+        if hash = get_typed_object(key, :hash)
+          hash.values
+        else
+          []
+        end
+      end
     end
     include HashMethods
 

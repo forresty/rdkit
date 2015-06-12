@@ -202,35 +202,36 @@ Since it is single-threaded, the count will be correct:
 
 ### Implemented Redis Commands
 
-| command    | support                              | note                                        |
-|------------|--------------------------------------|---------------------------------------------|
-| `info`     | full                                 |                                             |
-| `ping`     | full                                 |                                             |
-| `echo`     | full                                 |                                             |
-| `time`     | full                                 |                                             |
-| `select`   | partial/compatible                   | `redis-benchmark` requires `select` command |
-| `config`   | `get`, `set`, `resetstat`            |                                             |
-| `slowlog`  | full                                 |                                             |
-| `client`   | `getname`, `setname`, `list`, `kill` | `kill` filter only supports `id`, `addr`    |
-| `monitor`  | full                                 |                                             |
-| `debug`    | `sleep`                              |                                             |
-| `shutdown` | full                                 |                                             |
-| `get`      | full                                 |                                             |
-| `set`      | without options                      |                                             |
-| `del`      | full                                 |                                             |
-| `keys`     | without pattern (return all)         |                                             |
-| `lpush`    | full                                 |                                             |
-| `llen`     | full                                 |                                             |
-| `lrange`   | partial (not fully tested)           |                                             |
-| `exists`   | full                                 |                                             |
-| `flushdb`  | full                                 |                                             |
-| `flushall` | full                                 |                                             |
-| `mget`     | full                                 |                                             |
-| `mset`     | full                                 |                                             |
-| `strlen`   | full                                 |                                             |
-| `sadd`     | full                                 |                                             |
-| `scard`    | full                                 |                                             |
-| `smembers` | full                                 |                                             |
+| command     | support                              | note                                        |
+|-------------|--------------------------------------|---------------------------------------------|
+| `info`      | full                                 |                                             |
+| `ping`      | full                                 |                                             |
+| `echo`      | full                                 |                                             |
+| `time`      | full                                 |                                             |
+| `select`    | partial/compatible                   | `redis-benchmark` requires `select` command |
+| `config`    | `get`, `set`, `resetstat`            |                                             |
+| `slowlog`   | full                                 |                                             |
+| `client`    | `getname`, `setname`, `list`, `kill` | `kill` filter only supports `id`, `addr`    |
+| `monitor`   | full                                 |                                             |
+| `debug`     | `sleep`                              |                                             |
+| `shutdown`  | full                                 |                                             |
+| `get`       | full                                 |                                             |
+| `set`       | without options                      |                                             |
+| `del`       | full                                 |                                             |
+| `keys`      | without pattern (return all)         |                                             |
+| `lpush`     | full                                 |                                             |
+| `llen`      | full                                 |                                             |
+| `lrange`    | partial (not fully tested)           |                                             |
+| `exists`    | full                                 |                                             |
+| `flushdb`   | full                                 |                                             |
+| `flushall`  | full                                 |                                             |
+| `mget`      | full                                 |                                             |
+| `mset`      | full                                 |                                             |
+| `strlen`    | full                                 |                                             |
+| `sadd`      | full                                 |                                             |
+| `scard`     | full                                 |                                             |
+| `smembers`  | full                                 |                                             |
+| `sismember` | full                                 |                                             |
 
 ## Development
 

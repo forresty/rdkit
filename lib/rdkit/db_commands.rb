@@ -73,6 +73,10 @@ module RDKit
       def smembers(key)
         db.smembers(key)
       end
+
+      def sismember(key, value)
+        db.sismember(key, value)
+      end
     end
     include SetCommands
 

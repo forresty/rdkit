@@ -52,5 +52,9 @@ module RDKit
     def to_a
       value.to_a
     end
+
+    def include?(element)
+      value.include?(element)
+    end
   end
 end

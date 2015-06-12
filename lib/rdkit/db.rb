@@ -106,6 +106,15 @@ module RDKit
           []
         end
       end
+
+      def sismember(key, value)
+        if set = get_typed_object(key, :set)
+
+          set.include?(value) ? 1 : 0
+        else
+          0
+        end
+      end
     end
     include SetMethods
 

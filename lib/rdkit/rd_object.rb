@@ -64,6 +64,6 @@ module RDKit
   end
 
   class RDHash < RDObject
-    forward_to_value :has_key?, :[]=
+    forward_to_value :has_key?, :[]=, :[]
   end
 end

@@ -88,6 +88,10 @@ module RDKit
       def hset(key, field, value)
         db.hset(key, field, value)
       end
+
+      def hget(key, field)
+        db.hget(key, field)
+      end
     end
     include HashCommands
 

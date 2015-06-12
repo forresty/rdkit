@@ -234,6 +234,7 @@ Since it is single-threaded, the count will be correct:
 | `sismember` | full                                 |                                             |
 | `srem`      | full                                 |                                             |
 | `hset`      | full                                 |                                             |
+| `hget`      | full                                 |                                             |
 
 ## Development
 

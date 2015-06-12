@@ -144,6 +144,12 @@ module RDKit
           1
         end
       end
+
+      def hget(key, field)
+        if hash = get_typed_object(key, :hash)
+          hash[field]
+        end
+      end
     end
     include HashMethods
 

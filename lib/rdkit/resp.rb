@@ -9,6 +9,10 @@ module RDKit
           # Bulk String "OK" will be displayed by redis-cli as "OK"
           # While Simple String "OK" will be displayed as non-quoted OK
           "+OK\r\n"
+        when true
+          ":1\r\n"
+        when false
+          ":0\r\n"
         when Integer
           ":#{data}\r\n"
         when Array

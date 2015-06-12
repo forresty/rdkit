@@ -6,6 +6,11 @@ module RDKit
     it { is_expected.to respond_to :compose }
 
     describe '.compose' do
+      it 'composes booleans' do
+        expect(subject.compose(true)).to eq(":1\r\n")
+        expect(subject.compose(false)).to eq(":0\r\n")
+      end
+
       it 'composes Integer' do
         expect(subject.compose(1)).to eq(":1\r\n")
       end

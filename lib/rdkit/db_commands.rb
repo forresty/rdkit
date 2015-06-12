@@ -100,6 +100,14 @@ module RDKit
       def hlen(key)
         db.hlen(key)
       end
+
+      def hstrlen(key, field)
+        if str = db.hget(key, field)
+          str.bytesize
+        else
+          0
+        end
+      end
     end
     include HashCommands
 

@@ -237,6 +237,7 @@ Since it is single-threaded, the count will be correct:
 | `hget`      | full                                 |                                             |
 | `hexists`   | full                                 |                                             |
 | `hlen`      | full                                 |                                             |
+| `hstrlen`   | full                                 |                                             |
 
 ## Development
 

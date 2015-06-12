@@ -235,6 +235,7 @@ Since it is single-threaded, the count will be correct:
 | `srem`      | full                                 |                                             |
 | `hset`      | full                                 |                                             |
 | `hget`      | full                                 |                                             |
+| `hexists`   | full                                 |                                             |
 
 ## Development
 

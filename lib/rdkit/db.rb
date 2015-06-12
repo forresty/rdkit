@@ -150,6 +150,14 @@ module RDKit
           hash[field]
         end
       end
+
+      def hexists?(key, field)
+        if hash = get_typed_object(key, :hash)
+          hash.has_key?(field)
+        else
+          false
+        end
+      end
     end
     include HashMethods
 

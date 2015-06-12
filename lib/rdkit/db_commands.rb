@@ -92,6 +92,10 @@ module RDKit
       def hget(key, field)
         db.hget(key, field)
       end
+
+      def hexists(key, field)
+        db.hexists?(key, field)
+      end
     end
     include HashCommands
 

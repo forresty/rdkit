@@ -130,9 +130,9 @@ module RDKit
 
     describe '#exists' do
       it 'tests if key exists' do
-        expect(subject.exists('key')).to eq(0)
+        expect(subject.exists('key')).to eq(false)
         subject.set('key', 'value')
-        expect(subject.exists('key')).to eq(1)
+        expect(subject.exists('key')).to eq(true)
       end
     end
 

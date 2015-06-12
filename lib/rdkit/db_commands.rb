@@ -105,7 +105,7 @@ module RDKit
       end
 
       def exists(key)
-        db.exists?(key) ? 1 : 0
+        db.exists?(key)
       end
     end
     include KeyCommands

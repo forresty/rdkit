@@ -178,6 +178,14 @@ module RDKit
           0
         end
       end
+
+      def hkeys(key)
+        if hash = get_typed_object(key, :hash)
+          hash.keys
+        else
+          []
+        end
+      end
     end
     include HashMethods
 

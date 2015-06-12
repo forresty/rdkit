@@ -140,6 +140,13 @@ module RDKit
       skip 'not implemented yet'
     end
 
+    describe '#scard' do
+      it 'returns size of the set' do
+        subject.sadd('key', 'a', 'b', 'c', 'c')
+        expect(subject.scard('key')).to eq(3)
+      end
+    end
+
     describe '#call' do
       it 'raise UnknownCommandError on obscure command' do
         expect { subject.__send__(:call, 'xx') }.to raise_exception(UnknownCommandError)

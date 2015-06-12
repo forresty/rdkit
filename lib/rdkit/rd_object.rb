@@ -2,6 +2,24 @@ module RDKit
   class RDObject
     attr_accessor :type, :encoding, :value
 
+    def self.forward_to_value(*methods)
+      @forwarded_methods = methods
+    end
+
+    def method_missing(method, *args)
+      if forwarded_methods.include?(method)
+        value.__send__(method, *args)
+      else
+        super
+      end
+    end
+
+    private
+
+    def forwarded_methods
+      self.class.instance_variable_get(:@forwarded_methods) || []
+    end
+
     module ClassMethods
       def string(value)
         new.tap do |object|
@@ -31,30 +49,10 @@ module RDKit
   end
 
   class RDList < RDObject
-    def unshift(*elements)
-      value.unshift(*elements)
-    end
-
-    def length
-      value.length
-    end
+    forward_to_value :unshift, :length
   end
 
   class RDSet < RDObject
-    def add(element)
-      value.add(element)
-    end
-
-    def size
-      value.size
-    end
-
-    def to_a
-      value.to_a
-    end
-
-    def include?(element)
-      value.include?(element)
-    end
+    forward_to_value :add, :size, :to_a, :include?
   end
 end

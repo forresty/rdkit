@@ -108,6 +108,10 @@ module RDKit
           0
         end
       end
+
+      def hdel(key, field, *more_fields)
+        db.hdel(key, [field] + more_fields)
+      end
     end
     include HashCommands
 

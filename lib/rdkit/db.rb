@@ -166,6 +166,18 @@ module RDKit
           0
         end
       end
+
+      def hdel(key, fields)
+        if hash = get_typed_object(key, :hash)
+          size0 = hash.size
+
+          fields.each { |f| hash.delete(f) }
+
+          size0 - hash.size
+        else
+          0
+        end
+      end
     end
     include HashMethods
 

@@ -21,6 +21,10 @@ module RDKit
         'OK'
       end
 
+      def setnx(key, value)
+        db.setnx(key, value)
+      end
+
       def mget(key, *more_keys)
         ([key] + more_keys).map { |k| db.get(k) rescue nil }
       end

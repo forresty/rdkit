@@ -241,6 +241,7 @@ Since it is single-threaded, the count will be correct:
 | `hdel`      | full                                 |                                             |
 | `hkeys`     | full                                 |                                             |
 | `hvals`     | full                                 |                                             |
+| `setnx`     | full                                 |                                             |
 
 ## Development
 

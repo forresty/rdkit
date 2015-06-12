@@ -22,6 +22,15 @@ module RDKit
       def set(key, value)
         objects[key] = RDObject.string(value)
       end
+
+      def setnx(key, value)
+        if objects[key]
+          false
+        else
+          set(key, value)
+          true
+        end
+      end
     end
     include StringMethods
 

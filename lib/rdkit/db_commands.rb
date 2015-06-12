@@ -96,6 +96,10 @@ module RDKit
       def hexists(key, field)
         db.hexists?(key, field)
       end
+
+      def hlen(key)
+        db.hlen(key)
+      end
     end
     include HashCommands
 

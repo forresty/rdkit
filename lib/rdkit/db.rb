@@ -158,6 +158,14 @@ module RDKit
           false
         end
       end
+
+      def hlen(key)
+        if hash = get_typed_object(key, :hash)
+          hash.size
+        else
+          0
+        end
+      end
     end
     include HashMethods
 

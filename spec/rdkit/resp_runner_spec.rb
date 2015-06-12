@@ -147,6 +147,16 @@ module RDKit
       end
     end
 
+    describe '#srem' do
+      it 'removes the set when it is empty' do
+        subject.sadd('key', 'a', 'b')
+        expect(subject.scard('key')).to eq(2)
+        subject.srem('key', 'a', 'b')
+        expect(subject.scard('key')).to eq(0)
+        expect(subject.exists('key')).to eq(false)
+      end
+    end
+
     describe '#call' do
       it 'raise UnknownCommandError on obscure command' do
         expect { subject.__send__(:call, 'xx') }.to raise_exception(UnknownCommandError)

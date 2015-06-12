@@ -79,7 +79,9 @@ module RDKit
       end
 
       def srem(key, value, *more_values)
-        db.srem(key, [value] + more_values)
+        db.srem(key, [value] + more_values).tap do
+          db.del([key]) if db.scard(key) == 0
+        end
       end
     end
     include SetCommands

@@ -151,8 +151,18 @@ module RDKit
       it 'removes the set when it is empty' do
         subject.sadd('key', 'a', 'b')
         expect(subject.scard('key')).to eq(2)
-        subject.srem('key', 'a', 'b')
+        expect(subject.srem('key', 'a', 'b')).to eq(2)
         expect(subject.scard('key')).to eq(0)
+        expect(subject.exists('key')).to eq(false)
+      end
+    end
+
+    describe '#hdel' do
+      it 'removes the hash when it is empty' do
+        subject.hset('key', 'field', 'value')
+        expect(subject.hlen('key')).to eq(1)
+        expect(subject.hdel('key', 'field')).to eq(1)
+        expect(subject.hlen('key')).to eq(0)
         expect(subject.exists('key')).to eq(false)
       end
     end

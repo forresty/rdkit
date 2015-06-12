@@ -23,6 +23,10 @@ module RDKit
         objects[key] = RDObject.string(value)
       end
 
+      def getset(key, new_value)
+        objects[key].try(:value).tap { set(key, new_value) }
+      end
+
       def setnx(key, value)
         if objects[key]
           false

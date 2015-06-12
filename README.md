@@ -232,6 +232,7 @@ Since it is single-threaded, the count will be correct:
 | `scard`     | full                                 |                                             |
 | `smembers`  | full                                 |                                             |
 | `sismember` | full                                 |                                             |
+| `srem`      | full                                 |                                             |
 
 ## Development
 

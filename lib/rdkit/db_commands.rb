@@ -77,6 +77,10 @@ module RDKit
       def sismember(key, value)
         db.sismember(key, value)
       end
+
+      def srem(key, value, *more_values)
+        db.srem(key, [value] + more_values)
+      end
     end
     include SetCommands
 

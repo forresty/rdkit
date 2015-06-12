@@ -115,6 +115,18 @@ module RDKit
           0
         end
       end
+
+      def srem(key, elements)
+        if set = get_typed_object(key, :set)
+          size0 = set.size
+
+          elements.each { |e| set.delete(e) }
+
+          size0 - set.size
+        else
+          0
+        end
+      end
     end
     include SetMethods
 

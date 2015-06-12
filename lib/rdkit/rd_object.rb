@@ -53,6 +53,6 @@ module RDKit
   end
 
   class RDSet < RDObject
-    forward_to_value :add, :size, :to_a, :include?
+    forward_to_value :add, :size, :to_a, :include?, :delete
   end
 end

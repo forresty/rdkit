@@ -5,10 +5,8 @@ module RDKit
     module ClassMethods
       def compose(data)
         case data
-        when 'OK'
-          # Bulk String "OK" will be displayed by redis-cli as "OK"
-          # While Simple String "OK" will be displayed as non-quoted OK
-          "+OK\r\n"
+        when *%w{ OK string list set hash zset none }
+          "+#{data}\r\n"
         when true
           ":1\r\n"
         when false

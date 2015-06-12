@@ -135,6 +135,10 @@ module RDKit
       def exists(key)
         db.exists?(key)
       end
+
+      def type(key)
+        db.type(key)
+      end
     end
     include KeyCommands
 

@@ -37,6 +37,10 @@ module RDKit
       def exists?(key)
         objects.include?(key)
       end
+
+      def type(key)
+        objects[key].type.to_s rescue 'none'
+      end
     end
     include KeyMethods
 

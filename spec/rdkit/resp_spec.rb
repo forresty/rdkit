@@ -6,6 +6,10 @@ module RDKit
     it { is_expected.to respond_to :compose }
 
     describe '.compose' do
+      it 'transforms OK to simple string' do
+        expect(subject.compose("OK")).to eq("+OK\r\n")
+      end
+
       it 'composes booleans' do
         expect(subject.compose(true)).to eq(":1\r\n")
         expect(subject.compose(false)).to eq(":0\r\n")

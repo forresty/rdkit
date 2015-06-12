@@ -43,6 +43,13 @@ module RDKit
           set.value = Set.new(elements)
         end
       end
+
+      def create_hash(key, value)
+        RDHash.new.tap do |hash|
+          hash.type  = :hash
+          hash.value = { key => value }
+        end
+      end
     end
 
     class << self; include ClassMethods; end
@@ -54,5 +61,9 @@ module RDKit
 
   class RDSet < RDObject
     forward_to_value :add, :size, :to_a, :include?, :delete
+  end
+
+  class RDHash < RDObject
+    forward_to_value :has_key?, :[]=
   end
 end

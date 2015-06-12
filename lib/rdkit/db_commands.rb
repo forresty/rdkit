@@ -84,6 +84,13 @@ module RDKit
     end
     include SetCommands
 
+    module HashCommands
+      def hset(key, field, value)
+        db.hset(key, field, value)
+      end
+    end
+    include HashCommands
+
     module KeyCommands
       def del(key, *more_keys)
         db.del(more_keys.unshift(key))

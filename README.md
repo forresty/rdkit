@@ -233,6 +233,7 @@ Since it is single-threaded, the count will be correct:
 | `smembers`  | full                                 |                                             |
 | `sismember` | full                                 |                                             |
 | `srem`      | full                                 |                                             |
+| `hset`      | full                                 |                                             |
 
 ## Development
 

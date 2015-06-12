@@ -130,6 +130,23 @@ module RDKit
     end
     include SetMethods
 
+    module HashMethods
+      def hset(key, field, value)
+        if hash = get_typed_object(key, :hash)
+          existed = hash.has_key?(field) ? 0 : 1
+
+          hash[field] = value
+
+          existed
+        else
+          objects[key] = RDObject.create_hash(field, value)
+
+          1
+        end
+      end
+    end
+    include HashMethods
+
     private
 
     def objects

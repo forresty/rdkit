@@ -110,7 +110,7 @@ module RDKit
       @last_command = cmd.first
 
       @server.monitors.each do |client|
-        msg = "+#{Time.now.to_f} [#{client.socket_addr}] #{ cmd.map { |c| %Q{"#{c}"}}.join(' ') }\r\n"
+        msg = "+#{Time.now.to_f} [#{socket_addr}] #{ cmd.map { |c| %Q{"#{c}"}}.join(' ') }\r\n"
 
         client.socket.write(msg)
       end

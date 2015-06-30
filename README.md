@@ -14,6 +14,7 @@ And a lot more.
 
 - [520 Love Radio](http://s.weibo.com/weibo/same%2520%25E7%2594%25B5%25E5%258F%25B0) service of [same.com](http://same.com)
 - AntiSpam blacklisted photo filtering service used at [same.com](http://same.com) (BK-Tree + pHash)
+- channel unread count service at [same.com](http://same.com)
 
 [![Code Climate](https://codeclimate.com/github/forresty/rdkit/badges/gpa.svg)](https://codeclimate.com/github/forresty/rdkit)
 [![Build Status](https://travis-ci.org/forresty/rdkit.svg?branch=master)](https://travis-ci.org/forresty/rdkit)

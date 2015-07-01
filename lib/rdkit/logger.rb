@@ -1,5 +1,9 @@
 module RDKit
   class Logger
+    def initialize(log_path=nil)
+      @io = log_path ? File.open(log_path, 'a') : $stdout
+    end
+
     def debug(message)
       return unless $DEBUG && ENV['RACK_ENV'] != 'test'
 
@@ -17,11 +21,12 @@ module RDKit
     def log(message)
       case message
       when StandardError
-        puts message.inspect
-        puts message.backtrace.join("\n")
+        @io.puts message.inspect
+        @io.puts message.backtrace.join("\n")
       else
-        puts message
+        @io.puts message
       end
+      @io.flush
     end
   end
 end

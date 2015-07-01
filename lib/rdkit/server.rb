@@ -22,7 +22,7 @@ module RDKit
       @clients = Hash.new
       @monitors = []
 
-      @logger = Logger.new
+      @logger = Logger.new(ENV['RDKIT_LOG_PATH'])
       @current_db = DB.new(0)
       @all_dbs = [@current_db]
 

@@ -136,9 +136,6 @@ module RDKit
     rescue ClientDisconnectedError => e
       @monitors.delete(client)
       delete(socket)
-    rescue Exception => e
-      @logger.warn e
-      raise e
     end
 
     def run_acceptor
@@ -164,6 +161,9 @@ module RDKit
 
         core.tick!
       end
+    rescue Exception => e
+      @logger.warn e
+      raise e
     end
 
     def update_peak_connected_clients!

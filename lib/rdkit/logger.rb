@@ -20,7 +20,7 @@ module RDKit
 
     def log(message)
       case message
-      when StandardError
+      when Exception
         @io.puts message.inspect
         @io.puts message.backtrace.join("\n")
       else

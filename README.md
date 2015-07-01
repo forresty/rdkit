@@ -215,7 +215,7 @@ Since it is single-threaded, the count will be correct:
 | `slowlog`   | full                                 |                                             |
 | `client`    | `getname`, `setname`, `list`, `kill` | `kill` filter only supports `id`, `addr`    |
 | `monitor`   | full                                 |                                             |
-| `debug`     | `sleep`                              |                                             |
+| `debug`     | `sleep`, `segfault`                  |                                             |
 | `shutdown`  | full                                 |                                             |
 | `get`       | full                                 |                                             |
 | `set`       | without options                      |                                             |

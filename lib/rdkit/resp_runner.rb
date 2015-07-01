@@ -8,7 +8,7 @@ module RDKit
 
     def resp(cmd)
       RESP.compose(call(cmd))
-    rescue => e
+    rescue StandardError => e
       RESP.compose(e)
     end
 
@@ -50,7 +50,7 @@ module RDKit
     end
 
     def debug(cmd, *args)
-      execute_subcommand('debug', %w{ sleep }, cmd, *args)
+      execute_subcommand('debug', %w{ sleep segfault }, cmd, *args)
     end
 
     private

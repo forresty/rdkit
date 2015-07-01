@@ -1,7 +1,5 @@
 module RDKit
   module Subcommands
-
-
     private
 
     def execute_subcommand(base, valid_subcommands, subcommand, *args)
@@ -147,6 +145,10 @@ module RDKit
         sleep sec.to_i
 
         'OK'
+      end
+
+      def debug_segfault
+        raise Exception, "simulating a crash..." # Exception is not StandardError
       end
     end
     include DebugSubcommands

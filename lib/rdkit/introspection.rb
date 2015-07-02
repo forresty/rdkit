@@ -164,7 +164,7 @@ module RDKit
         when 'default'
           default
         when 'all'
-          default.merge({ commandstats: Commandstats.info })
+          default.merge({ commandstats: Commandstats.info, gc: GC.stat })
         when 'commandstats'
           { commandstats: Commandstats.info }
         else

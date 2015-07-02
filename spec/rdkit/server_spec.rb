@@ -6,6 +6,7 @@ module RDKit
 
     it { is_expected.to respond_to :current_client }
     it { is_expected.to respond_to :current_db }
+    it { is_expected.to respond_to :blocking }
 
     describe 'class methods' do
       subject { Server }

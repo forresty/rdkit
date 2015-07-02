@@ -26,6 +26,12 @@ module RDKit
       end
     end
 
+    def gc
+      GC.start
+
+      'OK'
+    end
+
     def monitor
       server.monitors << server.current_client
 

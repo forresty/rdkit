@@ -246,6 +246,14 @@ Since it is single-threaded, the count will be correct:
 | `setnx`     | full                                 |                                             |
 | `getset`    | full                                 |                                             |
 
+
+### Implemented Additional Commands
+
+| command     | description                                                                |
+|-------------|----------------------------------------------------------------------------|
+| `gc`        | start garbage collection immediately                                       |
+
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.

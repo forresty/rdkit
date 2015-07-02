@@ -327,6 +327,7 @@ See the difference between blocking and non-blocking commands?
 | command     | description                                                                |
 |-------------|----------------------------------------------------------------------------|
 | `gc`        | start garbage collection immediately                                       |
+| `heapdump`  | `ObjectSpace.dump_all` to ./tmp                                            |
 
 
 ## Development

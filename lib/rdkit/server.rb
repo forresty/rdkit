@@ -13,6 +13,7 @@ module RDKit
     attr_reader :host, :port
     attr_reader :logger
     attr_reader :monitors
+    attr_reader :cycles
 
     def initialize(host, port)
       @host, @port = host, port
@@ -164,6 +165,8 @@ module RDKit
         @cycles += 1
 
         core.tick!
+
+        GC.start if @cycles % 100 == 0
       end
     rescue Exception => e
       @logger.warn e

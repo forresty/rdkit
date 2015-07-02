@@ -26,6 +26,20 @@ module RDKit
       'OK'
     end
 
+    def heapdump
+      require "objspace"
+
+      ObjectSpace.trace_object_allocations_start
+
+      GC.start()
+
+      file = "tmp/heap-#{Process.pid}-#{Time.now.to_i}.json"
+
+      ObjectSpace.dump_all(output: File.open(file, "w"))
+
+      file
+    end
+
     def monitor
       server.monitors << server.current_client
 

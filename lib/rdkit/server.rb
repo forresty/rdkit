@@ -1,3 +1,5 @@
+require "sigdump/setup"
+
 module RDKit
   class Server
     HZ = 10

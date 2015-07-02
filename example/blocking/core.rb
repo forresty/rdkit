@@ -7,6 +7,11 @@ module Blocking
       end
     end
 
+    def nonblock
+      sleep 1
+      'haha'
+    end
+
     def tick!
     end
   end

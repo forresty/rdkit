@@ -200,6 +200,83 @@ Since it is single-threaded, the count will be correct:
 (integer) 10000
 ```
 
+### Implementing blocked commands
+
+Some commands will be blocking: they may either depend on external services or need some background tasks to be run.
+
+The clients will expect those commands to be blocking calls, they will not return until the commands are finished, but we don't want the server to be blocked as well.
+
+Therefore we introduce `Server#blocking` methods, execution wrapped in this method call will be run in a separated background thread, and the client will be on hold until that thread is finished.
+
+Example: see `examples/blocking` folder.
+
+```ruby
+# blocking/core.rb
+
+module Blocking
+  class Core < RDKit::Core
+    def block
+      server.blocking do
+        sleep 1
+        'hoho'
+      end
+    end
+
+    def nonblock
+      sleep 1
+      'haha'
+    end
+
+    def tick!
+    end
+  end
+end
+```
+
+Benchmarking:
+
+```shell
+$ redis-benchmark -p 9999 -n 100 block                                                                                                                                                              130 ↵
+====== block ======
+  100 requests completed in 2.09 seconds
+  50 parallel clients
+  3 bytes payload
+  keep alive: 1
+
+1.00% <= 1040 milliseconds
+13.00% <= 1041 milliseconds
+41.00% <= 1042 milliseconds
+52.00% <= 1043 milliseconds
+62.00% <= 1044 milliseconds
+76.00% <= 1045 milliseconds
+86.00% <= 1046 milliseconds
+93.00% <= 1047 milliseconds
+100.00% <= 1047 milliseconds
+47.87 requests per second
+
+$ redis-benchmark -p 9999 -n 10 nonblock
+====== nonblock ======
+  10 requests completed in 10.04 seconds
+  50 parallel clients
+  3 bytes payload
+  keep alive: 1
+
+10.00% <= 1001 milliseconds
+20.00% <= 2005 milliseconds
+30.00% <= 3010 milliseconds
+40.00% <= 4013 milliseconds
+50.00% <= 5018 milliseconds
+60.00% <= 6022 milliseconds
+70.00% <= 7027 milliseconds
+80.00% <= 8030 milliseconds
+90.00% <= 9034 milliseconds
+100.00% <= 10039 milliseconds
+1.00 requests per second
+
+```
+
+See the difference between blocking and non-blocking commands?
+
 ### Implemented Redis Commands
 
 | command     | support                              | note                                        |

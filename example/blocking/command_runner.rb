@@ -9,5 +9,9 @@ module Blocking
     def block
       core.block
     end
+
+    def nonblock
+      core.nonblock
+    end
   end
 end

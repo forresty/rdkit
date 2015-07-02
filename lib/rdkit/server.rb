@@ -63,6 +63,7 @@ module RDKit
           hz: HZ,
         },
         clients: {
+          blocked_clients: @blocked_clients.size,
           connected_clients: @clients.size,
           connected_clients_peak: @peak_connected_clients
         },

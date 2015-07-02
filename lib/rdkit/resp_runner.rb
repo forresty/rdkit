@@ -1,11 +1,5 @@
 module RDKit
   class RESPRunner
-    attr_reader :server
-
-    def initialize(server)
-      @server = server
-    end
-
     def resp(cmd)
       RESP.compose(call(cmd))
     rescue StandardError => e
@@ -57,6 +51,10 @@ module RDKit
 
     def debug(cmd, *args)
       execute_subcommand('debug', %w{ sleep segfault }, cmd, *args)
+    end
+
+    def server
+      Server.instance
     end
 
     private

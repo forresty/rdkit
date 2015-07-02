@@ -7,7 +7,7 @@ module Counter
       @core = Core.new
 
       # @runner is also required by RDKit
-      @runner = CommandRunner.new(@core, self)
+      @runner = CommandRunner.new(@core)
     end
 
     def introspection

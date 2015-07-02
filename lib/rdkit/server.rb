@@ -31,6 +31,8 @@ module RDKit
       Introspection.register(self)
 
       @server_up_since = Time.now
+
+      Server.register(self)
     end
 
     def start
@@ -175,5 +177,16 @@ module RDKit
     def update_peak_connected_clients!
       @peak_connected_clients = [@peak_connected_clients, @clients.size].max
     end
+
+    module ClassMethods
+      def register(instance)
+        @@instance = instance
+      end
+
+      def instance
+        @@instance
+      end
+    end
+    class << self; include ClassMethods; end
   end
 end

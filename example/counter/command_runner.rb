@@ -1,8 +1,6 @@
 module Counter
   class CommandRunner < RDKit::RESPRunner
-    def initialize(counter, server)
-      super(server)
-
+    def initialize(counter)
       @counter = counter
     end
 

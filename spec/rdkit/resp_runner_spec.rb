@@ -2,9 +2,9 @@ require "spec_helper"
 
 module RDKit
   describe RESPRunner do
-    let(:server) { Server.new('0.0.0.0', 3721) }
+    before { Server.new('0.0.0.0', 3721) }
 
-    subject { RESPRunner.new(server) }
+    subject { RESPRunner.new }
 
     it { is_expected.to respond_to :resp }
 

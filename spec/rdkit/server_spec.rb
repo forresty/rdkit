@@ -6,5 +6,12 @@ module RDKit
 
     it { is_expected.to respond_to :current_client }
     it { is_expected.to respond_to :current_db }
+
+    describe 'class methods' do
+      subject { Server }
+
+      it { is_expected.to respond_to :register }
+      it { is_expected.to respond_to :instance }
+    end
   end
 end

@@ -28,6 +28,24 @@ module RDKit
       @fiber.resume
     end
 
+    def blocking(&block)
+      @blocked = true
+
+      @result = nil
+
+      @background_thread = Thread.new { @result = block.call }
+    end
+
+    def finished?
+      !@background_thread.alive?
+    end
+
+    def unblock!
+      @blocked = false
+
+      @fiber.resume
+    end
+
     def info
       {
         id:   @id,
@@ -90,7 +108,7 @@ module RDKit
       feed_parser
 
       until (reply = get_parser_reply) == false
-        send_response(reply)
+        execute_and_send_response(reply)
       end
     end
 
@@ -106,7 +124,7 @@ module RDKit
       @command_parser.gets
     end
 
-    def send_response(cmd)
+    def execute_and_send_response(cmd)
       @last_command = cmd.first
 
       @server.monitors.each do |client|
@@ -116,6 +134,12 @@ module RDKit
       end
 
       resp, usec = SlowLog.monitor(cmd) { @runner.resp(cmd) }
+
+      if @blocked
+        Fiber.yield
+
+        resp = RESP.compose(@result)
+      end
 
       Introspection::Commandstats.record(cmd.first, usec)
       Introspection::Stats.incr(:total_net_output_bytes, resp.bytesize)

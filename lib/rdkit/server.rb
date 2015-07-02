@@ -22,6 +22,7 @@ module RDKit
       @client_id_seq = 0
 
       @clients = Hash.new
+      @blocked_clients = Hash.new
       @monitors = []
 
       @logger = Logger.new(ENV['RDKIT_LOG_PATH'])
@@ -62,6 +63,7 @@ module RDKit
           hz: HZ,
         },
         clients: {
+          blocked_clients: @blocked_clients.size,
           connected_clients: @clients.size,
           connected_clients_peak: @peak_connected_clients
         },
@@ -98,6 +100,13 @@ module RDKit
       flushdb!
 
       @all_dbs = [@current_db]
+    end
+
+    def blocking(&block)
+      @blocked_clients[current_client.socket] = current_client
+      @clients.delete(current_client.socket)
+
+      current_client.blocking(&block)
     end
 
     private
@@ -146,6 +155,7 @@ module RDKit
       @logger.info "accepting on shared socket (#{@host}:#{@port})"
 
       loop do
+        process_blocked_clients
         process_clients
 
         update_peak_memory! if @cycles % CYCLES_TIL_MEMORY_RESAMPLE == 0
@@ -158,6 +168,17 @@ module RDKit
     rescue Exception => e
       @logger.warn e
       raise e
+    end
+
+    def process_blocked_clients
+      @blocked_clients.each do |socket, client|
+        if client.finished?
+          @clients[socket] = client
+          @blocked_clients.delete(socket)
+
+          client.unblock!
+        end
+      end
     end
 
     def process_clients

@@ -12,5 +12,6 @@ module RDKit
     it { is_expected.to respond_to :name }
     it { is_expected.to respond_to :fd }
     it { is_expected.to respond_to :info }
+    it { is_expected.to respond_to :blocking }
   end
 end

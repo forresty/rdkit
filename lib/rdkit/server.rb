@@ -142,17 +142,7 @@ module RDKit
       @logger.info "accepting on shared socket (#{@host}:#{@port})"
 
       loop do
-        readable, _ = IO.select([@server_socket, @clients.keys].flatten, nil, nil, 1.0 / HZ)
-
-        if readable
-          readable.each do |socket|
-            if socket == @server_socket
-              add_client
-            else
-              process(socket)
-            end
-          end
-        end
+        process_clients
 
         update_peak_memory! if @cycles % CYCLES_TIL_MEMORY_RESAMPLE == 0
         update_peak_connected_clients!
@@ -164,6 +154,20 @@ module RDKit
     rescue Exception => e
       @logger.warn e
       raise e
+    end
+
+    def process_clients
+      readable, _ = IO.select([@server_socket, @clients.keys].flatten, nil, nil, 1.0 / HZ)
+
+      if readable
+        readable.each do |socket|
+          if socket == @server_socket
+            add_client
+          else
+            process(socket)
+          end
+        end
+      end
     end
 
     def update_peak_connected_clients!

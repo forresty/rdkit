@@ -1,4 +1,5 @@
 require "sigdump/setup"
+require 'thread/pool'
 
 module RDKit
   class Server
@@ -13,6 +14,7 @@ module RDKit
     attr_reader :host, :port
     attr_reader :logger
     attr_reader :monitors
+    attr_reader :cycles
 
     def initialize(host, port)
       @host, @port = host, port
@@ -102,11 +104,15 @@ module RDKit
       @all_dbs = [@current_db]
     end
 
-    def blocking(&block)
+    def blocking(on_success=nil, &block)
       @blocked_clients[current_client.socket] = current_client
       @clients.delete(current_client.socket)
 
-      current_client.blocking(&block)
+      current_client.blocking(on_success, &block)
+    end
+
+    def pool
+      @pool ||= Thread.pool((ENV['RDKIT_SERVER_THREAD_POOL_SIZE'] || 10).to_i)
     end
 
     private
@@ -164,6 +170,8 @@ module RDKit
         @cycles += 1
 
         core.tick!
+
+        GC.start if @cycles % 100 == 0
       end
     rescue Exception => e
       @logger.warn e

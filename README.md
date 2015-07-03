@@ -211,20 +211,57 @@ Therefore we introduce `Server#blocking` methods, execution wrapped in this meth
 Example: see `examples/blocking` folder.
 
 ```ruby
+# blocking/command_runner.rb
+
+module Blocking
+  class CommandRunner < RDKit::RESPRunner
+    attr_reader :core
+
+    def initialize(core)
+      @core = core
+    end
+
+    def block_with_callback
+      core.block_with_callback
+
+      # this is ignored, instead `on_success` block of `core.block_with_callback` is evaluated and returned
+      'OK'
+    end
+
+    def block
+      core.block
+
+      'OK'
+    end
+
+    def nonblock
+      core.nonblock
+
+      'OK'
+    end
+  end
+end
+
 # blocking/core.rb
 
 module Blocking
   class Core < RDKit::Core
+    def block_with_callback
+      on_success = lambda { 'success' }
+
+      server.blocking(on_success) { do_something }
+    end
+
     def block
-      server.blocking do
-        sleep 1
-        'hoho'
-      end
+      server.blocking { do_something }
     end
 
     def nonblock
+      do_something
+    end
+
+    def do_something
       sleep 1
-      'haha'
     end
 
     def tick!
@@ -233,26 +270,34 @@ module Blocking
 end
 ```
 
+Running:
+
+```shell
+$ redis-cli -p 9999
+127.0.0.1:9999> block
+OK
+(1.03s)
+127.0.0.1:9999> nonblock
+OK
+(1.01s)
+127.0.0.1:9999> block_with_callback
+"success"
+(1.02s)
+```
+
 Benchmarking:
 
 ```shell
-$ redis-benchmark -p 9999 -n 100 block                                                                                                                                                              130 ↵
+$ redis-benchmark -p 9999 -n 10 block
 ====== block ======
-  100 requests completed in 2.09 seconds
+  10 requests completed in 1.03 seconds
   50 parallel clients
   3 bytes payload
   keep alive: 1
 
-1.00% <= 1040 milliseconds
-13.00% <= 1041 milliseconds
-41.00% <= 1042 milliseconds
-52.00% <= 1043 milliseconds
-62.00% <= 1044 milliseconds
-76.00% <= 1045 milliseconds
-86.00% <= 1046 milliseconds
-93.00% <= 1047 milliseconds
-100.00% <= 1047 milliseconds
-47.87 requests per second
+10.00% <= 1027 milliseconds
+100.00% <= 1027 milliseconds
+9.73 requests per second
 
 $ redis-benchmark -p 9999 -n 10 nonblock
 ====== nonblock ======

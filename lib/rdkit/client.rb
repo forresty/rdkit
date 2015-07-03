@@ -1,3 +1,5 @@
+require 'thread/future'
+
 module RDKit
   class Client
     attr_accessor :id
@@ -28,16 +30,16 @@ module RDKit
       @fiber.resume
     end
 
-    def blocking(&block)
+    def blocking(on_success=nil, &block)
       @blocked = true
 
-      @result = nil
+      @on_block_success = on_success
 
-      @background_thread = Thread.new { @result = block.call }
+      @future = Thread.future(@server.pool) { block.call }
     end
 
     def finished?
-      !@background_thread.alive?
+      @future.delivered?
     end
 
     def unblock!
@@ -138,7 +140,7 @@ module RDKit
       if @blocked
         Fiber.yield
 
-        resp = RESP.compose(@result)
+        resp = RESP.compose(@on_block_success.call) if @on_block_success
       end
 
       Introspection::Commandstats.record(cmd.first, usec)

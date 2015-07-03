@@ -103,11 +103,11 @@ module RDKit
       @all_dbs = [@current_db]
     end
 
-    def blocking(&block)
+    def blocking(on_success=nil, &block)
       @blocked_clients[current_client.socket] = current_client
       @clients.delete(current_client.socket)
 
-      current_client.blocking(&block)
+      current_client.blocking(on_success, &block)
     end
 
     private

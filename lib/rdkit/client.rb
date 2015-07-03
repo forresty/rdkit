@@ -28,12 +28,12 @@ module RDKit
       @fiber.resume
     end
 
-    def blocking(&block)
+    def blocking(on_success=nil, &block)
       @blocked = true
 
-      @result = nil
+      @on_background_task_success = on_success
 
-      @background_thread = Thread.new { @result = block.call }
+      @background_thread = Thread.new { block.call }
     end
 
     def finished?
@@ -138,7 +138,9 @@ module RDKit
       if @blocked
         Fiber.yield
 
-        resp = RESP.compose(@result)
+        if @on_background_task_success
+          resp = RESP.compose(@on_background_task_success.call)
+        end
       end
 
       Introspection::Commandstats.record(cmd.first, usec)

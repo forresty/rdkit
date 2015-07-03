@@ -211,20 +211,57 @@ Therefore we introduce `Server#blocking` methods, execution wrapped in this meth
 Example: see `examples/blocking` folder.
 
 ```ruby
+# blocking/command_runner.rb
+
+module Blocking
+  class CommandRunner < RDKit::RESPRunner
+    attr_reader :core
+
+    def initialize(core)
+      @core = core
+    end
+
+    def block_with_callback
+      core.block_with_callback
+
+      # this is ignored, instead `on_success` block of `core.block_with_callback` is evaluated and returned
+      'OK'
+    end
+
+    def block
+      core.block
+
+      'OK'
+    end
+
+    def nonblock
+      core.nonblock
+
+      'OK'
+    end
+  end
+end
+
 # blocking/core.rb
 
 module Blocking
   class Core < RDKit::Core
+    def block_with_callback
+      on_success = lambda { 'success' }
+
+      server.blocking(on_success) { do_something }
+    end
+
     def block
-      server.blocking do
-        sleep 1
-        'hoho'
-      end
+      server.blocking { do_something }
     end
 
     def nonblock
+      do_something
+    end
+
+    def do_something
       sleep 1
-      'haha'
     end
 
     def tick!
@@ -233,10 +270,26 @@ module Blocking
 end
 ```
 
+Running:
+
+```shell
+$ redis-cli -p 9999
+127.0.0.1:9999> block
+OK
+(1.03s)
+127.0.0.1:9999> nonblock
+OK
+(1.01s)
+127.0.0.1:9999> block_with_callback
+"success"
+(1.02s)
+```
+
 Benchmarking:
 
 ```shell
-$ redis-benchmark -p 9999 -n 100 block                                                                                                                                                              130 ↵
+$ redis-benchmark -p 9999 -n 100 block
+
 ====== block ======
   100 requests completed in 2.09 seconds
   50 parallel clients

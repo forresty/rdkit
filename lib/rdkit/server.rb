@@ -172,11 +172,15 @@ module RDKit
 
         core.tick!
 
-        GC.start if @cycles % 100 == 0
+        gc_pool.process if @cycles % 1000 == 0
       end
     rescue Exception => e
       @logger.warn e
       raise e
+    end
+
+    def gc_pool
+      @gc_pool ||= Thread.pool(1) { GC.start }
     end
 
     def process_blocked_clients

@@ -19,6 +19,8 @@ And a lot more.
 [![Code Climate](https://codeclimate.com/github/forresty/rdkit/badges/gpa.svg)](https://codeclimate.com/github/forresty/rdkit)
 [![Build Status](https://travis-ci.org/forresty/rdkit.svg?branch=master)](https://travis-ci.org/forresty/rdkit)
 
+`RDKit` should work without problem on `MRI` 2.2+, may encounter bugs on earlier version of `MRI` or `JRuby` or `Rubinus`, in that case, please kindly open an issue on GitHub
+
 ## Installation
 
 Add this line to your application's Gemfile:

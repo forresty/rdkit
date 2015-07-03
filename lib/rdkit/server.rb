@@ -115,6 +115,13 @@ module RDKit
       @pool ||= Thread.pool((ENV['RDKIT_SERVER_THREAD_POOL_SIZE'] || 10).to_i)
     end
 
+    # callbacks
+    def client_connected(client); end
+    def client_disconnected(client); end
+    def client_command_processed(client); end
+    def client_block_resumed(client); end
+    def client_blocked(client); end
+
     private
 
     def sanity_check!
@@ -160,13 +167,6 @@ module RDKit
       delete(socket)
       client_disconnected(client)
     end
-
-    # callbacks
-    def client_connected(client); end
-
-    def client_disconnected(client); end
-
-    def client_command_processed(client); end
 
     def run_acceptor
       @logger.info "accepting on shared socket (#{@host}:#{@port})"

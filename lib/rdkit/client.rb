@@ -45,6 +45,7 @@ module RDKit
     def unblock!
       @blocked = false
 
+      @server.client_block_resumed(self)
       @fiber.resume
     end
 
@@ -137,6 +138,7 @@ module RDKit
       resp, usec = SlowLog.monitor(cmd) { @runner.resp(cmd) }
 
       if @blocked
+        @server.client_blocked(self)
         Fiber.yield
 
         resp = RESP.compose(@on_block_success.call) if @on_block_success

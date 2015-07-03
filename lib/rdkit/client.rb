@@ -101,7 +101,6 @@ module RDKit
       # client protocol error, force disconnect
       @logger.debug "client protocol error"
       @logger.debug e
-      socket.close
 
       raise ClientDisconnectedError
     end

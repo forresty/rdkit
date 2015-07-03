@@ -144,6 +144,7 @@ module RDKit
       client.id = (@client_id_seq += 1)
 
       @logger.debug "client #{socket} connected"
+      client_connected(client)
 
       return @clients[socket]
     end
@@ -152,10 +153,20 @@ module RDKit
       client = @clients[socket]
       @current_client = client
       client.resume
+      client_command_processed(client)
     rescue ClientDisconnectedError => e
+      socket.close
       @monitors.delete(client)
       delete(socket)
+      client_disconnected(client)
     end
+
+    # callbacks
+    def client_connected(client); end
+
+    def client_disconnected(client); end
+
+    def client_command_processed(client); end
 
     def run_acceptor
       @logger.info "accepting on shared socket (#{@host}:#{@port})"

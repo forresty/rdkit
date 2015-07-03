@@ -288,24 +288,16 @@ OK
 Benchmarking:
 
 ```shell
-$ redis-benchmark -p 9999 -n 100 block
-
+$ redis-benchmark -p 9999 -n 10 block
 ====== block ======
-  100 requests completed in 2.09 seconds
+  10 requests completed in 1.03 seconds
   50 parallel clients
   3 bytes payload
   keep alive: 1
 
-1.00% <= 1040 milliseconds
-13.00% <= 1041 milliseconds
-41.00% <= 1042 milliseconds
-52.00% <= 1043 milliseconds
-62.00% <= 1044 milliseconds
-76.00% <= 1045 milliseconds
-86.00% <= 1046 milliseconds
-93.00% <= 1047 milliseconds
-100.00% <= 1047 milliseconds
-47.87 requests per second
+10.00% <= 1027 milliseconds
+100.00% <= 1027 milliseconds
+9.73 requests per second
 
 $ redis-benchmark -p 9999 -n 10 nonblock
 ====== nonblock ======

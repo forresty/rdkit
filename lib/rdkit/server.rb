@@ -1,4 +1,5 @@
 require "sigdump/setup"
+require 'thread/pool'
 
 module RDKit
   class Server
@@ -108,6 +109,10 @@ module RDKit
       @clients.delete(current_client.socket)
 
       current_client.blocking(on_success, &block)
+    end
+
+    def pool
+      @pool ||= Thread.pool((ENV['RDKIT_SERVER_THREAD_POOL_SIZE'] || 10).to_i)
     end
 
     private

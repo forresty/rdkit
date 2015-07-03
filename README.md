@@ -206,7 +206,7 @@ Some commands will be blocking: they may either depend on external services or n
 
 The clients will expect those commands to be blocking calls, they will not return until the commands are finished, but we don't want the server to be blocked as well.
 
-Therefore we introduce `Server#blocking` methods, execution wrapped in this method call will be run in a separated background thread, and the client will be on hold until that thread is finished.
+Therefore we introduce `Server#blocking` methods, execution wrapped in this method call will be run in a background thread pool, and the client will be on hold until that task is finished.
 
 Example: see `examples/blocking` folder.
 

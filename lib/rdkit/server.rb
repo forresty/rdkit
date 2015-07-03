@@ -56,6 +56,7 @@ module RDKit
     def introspection
       {
         server: {
+          ruby_version: "#{RUBY_VERSION}p#{RUBY_PATCHLEVEL}",
           rdkit_version: RDKit::VERSION,
           multiplexing_api: 'select',
           process_id: Process.pid,

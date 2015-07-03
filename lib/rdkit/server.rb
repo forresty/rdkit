@@ -155,6 +155,7 @@ module RDKit
       client.resume
       client_command_processed(client)
     rescue ClientDisconnectedError => e
+      socket.close
       @monitors.delete(client)
       delete(socket)
       client_disconnected(client)

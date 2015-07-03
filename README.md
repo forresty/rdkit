@@ -170,6 +170,8 @@ total_commands_processed:6
 (error) ERR unknown command 'xx'
 ```
 
+Hint: if you are adventurous, try `info all`
+
 ### Benchmarking with `redis-benchmark`
 
 ```shell
@@ -324,47 +326,47 @@ See the difference between blocking and non-blocking commands?
 
 ### Implemented Redis Commands
 
-| command     | support                              | note                                        |
-|-------------|--------------------------------------|---------------------------------------------|
-| `info`      | full                                 |                                             |
-| `ping`      | full                                 |                                             |
-| `echo`      | full                                 |                                             |
-| `time`      | full                                 |                                             |
-| `select`    | partial/compatible                   | `redis-benchmark` requires `select` command |
-| `config`    | `get`, `set`, `resetstat`            |                                             |
-| `slowlog`   | full                                 |                                             |
-| `client`    | `getname`, `setname`, `list`, `kill` | `kill` filter only supports `id`, `addr`    |
-| `monitor`   | full                                 |                                             |
-| `debug`     | `sleep`, `segfault`                  |                                             |
-| `shutdown`  | full                                 |                                             |
-| `get`       | full                                 |                                             |
-| `set`       | without options                      |                                             |
-| `del`       | full                                 |                                             |
-| `keys`      | without pattern (return all)         |                                             |
-| `lpush`     | full                                 |                                             |
-| `llen`      | full                                 |                                             |
-| `lrange`    | partial (not fully tested)           |                                             |
-| `exists`    | full                                 |                                             |
-| `flushdb`   | full                                 |                                             |
-| `flushall`  | full                                 |                                             |
-| `mget`      | full                                 |                                             |
-| `mset`      | full                                 |                                             |
-| `strlen`    | full                                 |                                             |
-| `sadd`      | full                                 |                                             |
-| `scard`     | full                                 |                                             |
-| `smembers`  | full                                 |                                             |
-| `sismember` | full                                 |                                             |
-| `srem`      | full                                 |                                             |
-| `hset`      | full                                 |                                             |
-| `hget`      | full                                 |                                             |
-| `hexists`   | full                                 |                                             |
-| `hlen`      | full                                 |                                             |
-| `hstrlen`   | full                                 |                                             |
-| `hdel`      | full                                 |                                             |
-| `hkeys`     | full                                 |                                             |
-| `hvals`     | full                                 |                                             |
-| `setnx`     | full                                 |                                             |
-| `getset`    | full                                 |                                             |
+| command     | support                              | note                                         |
+|-------------|--------------------------------------|----------------------------------------------|
+| `info`      | full                                 | `info all` returns `objspace` and `GC` stats |
+| `ping`      | full                                 |                                              |
+| `echo`      | full                                 |                                              |
+| `time`      | full                                 |                                              |
+| `select`    | partial/compatible                   | `redis-benchmark` requires `select` command  |
+| `config`    | `get`, `set`, `resetstat`            |                                              |
+| `slowlog`   | full                                 |                                              |
+| `client`    | `getname`, `setname`, `list`, `kill` | `kill` filter only supports `id`, `addr`     |
+| `monitor`   | full                                 |                                              |
+| `debug`     | `sleep`, `segfault`                  |                                              |
+| `shutdown`  | full                                 |                                              |
+| `get`       | full                                 |                                              |
+| `set`       | without options                      |                                              |
+| `del`       | full                                 |                                              |
+| `keys`      | without pattern (return all)         |                                              |
+| `lpush`     | full                                 |                                              |
+| `llen`      | full                                 |                                              |
+| `lrange`    | partial (not fully tested)           |                                              |
+| `exists`    | full                                 |                                              |
+| `flushdb`   | full                                 |                                              |
+| `flushall`  | full                                 |                                              |
+| `mget`      | full                                 |                                              |
+| `mset`      | full                                 |                                              |
+| `strlen`    | full                                 |                                              |
+| `sadd`      | full                                 |                                              |
+| `scard`     | full                                 |                                              |
+| `smembers`  | full                                 |                                              |
+| `sismember` | full                                 |                                              |
+| `srem`      | full                                 |                                              |
+| `hset`      | full                                 |                                              |
+| `hget`      | full                                 |                                              |
+| `hexists`   | full                                 |                                              |
+| `hlen`      | full                                 |                                              |
+| `hstrlen`   | full                                 |                                              |
+| `hdel`      | full                                 |                                              |
+| `hkeys`     | full                                 |                                              |
+| `hvals`     | full                                 |                                              |
+| `setnx`     | full                                 |                                              |
+| `getset`    | full                                 |                                              |
 
 
 ### Implemented Additional Commands

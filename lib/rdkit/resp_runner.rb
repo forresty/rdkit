@@ -31,7 +31,7 @@ module RDKit
 
       ObjectSpace.trace_object_allocations_start
 
-      GC.start()
+      GC.start
 
       file = "tmp/heap-#{Process.pid}-#{Time.now.to_i}.json"
 

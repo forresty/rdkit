@@ -277,14 +277,14 @@ end
 Running:
 
 ```shell
-$ redis-cli -p 9999
-127.0.0.1:9999> block
+$ redis-cli -p 3721
+127.0.0.1:3721> block
 OK
 (1.03s)
-127.0.0.1:9999> nonblock
+127.0.0.1:3721> nonblock
 OK
 (1.01s)
-127.0.0.1:9999> block_with_callback
+127.0.0.1:3721> block_with_callback
 "success"
 (1.02s)
 ```
@@ -292,7 +292,7 @@ OK
 Benchmarking:
 
 ```shell
-$ redis-benchmark -p 9999 -n 10 block
+$ redis-benchmark -p 3721 -n 10 block
 ====== block ======
   10 requests completed in 1.03 seconds
   50 parallel clients
@@ -303,7 +303,7 @@ $ redis-benchmark -p 9999 -n 10 block
 100.00% <= 1027 milliseconds
 9.73 requests per second
 
-$ redis-benchmark -p 9999 -n 10 nonblock
+$ redis-benchmark -p 3721 -n 10 nonblock
 ====== nonblock ======
   10 requests completed in 10.04 seconds
   50 parallel clients

@@ -21,7 +21,9 @@ module RDKit
     end
 
     def used_memory_rss
-      NewRelic::Agent::Samplers::MemorySampler.new.sampler.get_sample
+      @@sampler ||= NewRelic::Agent::Samplers::MemorySampler.new.sampler
+
+      @@sampler.get_sample
     end
   end
 end

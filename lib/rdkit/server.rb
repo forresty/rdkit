@@ -4,7 +4,6 @@ require 'thread/pool'
 module RDKit
   class Server
     HZ = 10
-    CYCLES_TIL_MEMORY_RESAMPLE = 1000
 
     attr_reader :server_up_since
     attr_reader :current_client
@@ -165,7 +164,6 @@ module RDKit
         process_blocked_clients
         process_clients
 
-        update_peak_memory! if @cycles % CYCLES_TIL_MEMORY_RESAMPLE == 0
         update_peak_connected_clients!
 
         @cycles += 1

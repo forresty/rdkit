@@ -330,7 +330,7 @@ See the difference between blocking and non-blocking commands?
 
 | command     | support                              | note                                         |
 |-------------|--------------------------------------|----------------------------------------------|
-| `info`      | full                                 | `info all` returns `objspace` and `GC` stats |
+| `info`      | full                                 | additional `objspace` and `gc` commands      |
 | `ping`      | full                                 |                                              |
 | `echo`      | full                                 |                                              |
 | `time`      | full                                 |                                              |

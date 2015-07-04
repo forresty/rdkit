@@ -167,6 +167,10 @@ module RDKit
           default.merge({ commandstats: Commandstats.info, gc: GC.stat, objspace: ObjectSpace.count_objects, allobjects: all_objects })
         when 'commandstats'
           { commandstats: Commandstats.info }
+        when 'gc'
+          { gc: GC.stat }
+        when 'objspace'
+          { objspace: ObjectSpace.count_objects, allobjects: all_objects }
         else
           default.keep_if { |k, v| k == section.downcase.to_sym }
         end
@@ -177,7 +181,7 @@ module RDKit
       def all_objects
         all = {}
         ObjectSpace.each_object { |o| all[o.class] = (all[o.class] || 0) + 1 }
-        all.sort_by {|k,v| -v }
+        all.sort_by { |k,v| -v }
       end
     end
 

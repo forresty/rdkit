@@ -13,6 +13,7 @@ module RDKit
     attr_reader :logger
     attr_reader :monitors
     attr_reader :cycles
+    attr_accessor :parser_class
 
     def responder
       @responder ||= (( @runner && $stderr.puts("@runner is deprecated, use @responder instead") ) || @runner)
@@ -36,6 +37,8 @@ module RDKit
       Introspection.register(self)
 
       @server_up_since = Time.now
+
+      @parser_class = RESPParser
 
       Server.register(self)
     end

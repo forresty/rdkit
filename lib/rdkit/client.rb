@@ -12,7 +12,7 @@ module RDKit
       @server = server
       @socket = socket
       @responder = server.responder
-      @command_parser = RESPParser.new
+      @command_parser = server.parser_class.new
       @logger = server.logger
       @created_at = Time.now
       @last_interacted_at = Time.now

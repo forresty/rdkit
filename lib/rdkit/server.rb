@@ -189,7 +189,11 @@ module RDKit
     end
 
     def gc_pool
-      @gc_pool ||= Thread.pool(1) { GC.start }
+      @gc_pool ||= Thread.pool(1) do
+        _, usec = SlowLog.monitor('bg_gc') { GC.start }
+
+        Introspection::Commandstats.record('bg_gc', usec)
+      end
     end
 
     def process_blocked_clients

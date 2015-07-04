@@ -3,7 +3,7 @@ require "hiredis/reader"
 # Hiredis::Reader does not handle inline commands, so
 
 module RDKit
-  class CommandParser
+  class RESPParser
     def initialize
       @reader = Hiredis::Reader.new
       @buffer = []

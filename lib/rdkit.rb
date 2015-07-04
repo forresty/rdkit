@@ -7,12 +7,18 @@ require_relative 'rdkit/resp'
 require_relative 'rdkit/logger'
 require_relative 'rdkit/introspection'
 require_relative 'rdkit/core'
-require_relative 'rdkit/command_parser'
+
+require_relative 'rdkit/resp_parser'
+require_relative 'rdkit/http_parser'
+
 require_relative 'rdkit/simple_commands'
 require_relative 'rdkit/rd_object'
 require_relative 'rdkit/db_commands'
 require_relative 'rdkit/subcommands'
-require_relative 'rdkit/resp_runner'
+
+require_relative 'rdkit/resp_responder'
+require_relative 'rdkit/http_responder'
+
 require_relative 'rdkit/client'
 require_relative 'rdkit/memory_monitoring'
 require_relative 'rdkit/db'

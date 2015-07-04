@@ -1,7 +1,7 @@
 require "spec_helper"
 
 module RDKit
-  describe CommandParser do
+  describe RESPParser do
     it 'handles normal commands' do
       subject.feed("*2\r\n$4\r\nLLEN\r\n$6\r\nmylist\r\n")
       expect(subject.gets).to eq(["LLEN", "mylist"])

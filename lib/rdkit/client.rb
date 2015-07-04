@@ -11,8 +11,8 @@ module RDKit
     def initialize(socket, server)
       @server = server
       @socket = socket
-      @runner = server.runner
-      @command_parser = CommandParser.new
+      @responder = server.responder
+      @command_parser = server.parser_class.new
       @logger = server.logger
       @created_at = Time.now
       @last_interacted_at = Time.now
@@ -137,13 +137,13 @@ module RDKit
         client.socket.write(msg)
       end
 
-      resp, usec = SlowLog.monitor(cmd) { @runner.resp(cmd) }
+      resp, usec = SlowLog.monitor(cmd) { @responder.run(cmd) }
 
       if @blocked_at
         @server.client_blocked(self)
         Fiber.yield
 
-        resp = RESP.compose(@on_block_success.call) if @on_block_success
+        resp = @responder.run(@on_block_success.call) if @on_block_success
       end
 
       Introspection::Commandstats.record(cmd.first, usec)

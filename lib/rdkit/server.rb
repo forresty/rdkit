@@ -8,12 +8,16 @@ module RDKit
     attr_reader :server_up_since
     attr_reader :current_client
     attr_reader :current_db
-    attr_reader :runner
     attr_reader :core
     attr_reader :host, :port
     attr_reader :logger
     attr_reader :monitors
     attr_reader :cycles
+    attr_accessor :parser_class
+
+    def responder
+      @responder ||= (( @runner && $stderr.puts("@runner is deprecated, use @responder instead") ) || @runner)
+    end
 
     def initialize(host, port)
       @host, @port = host, port
@@ -33,6 +37,8 @@ module RDKit
       Introspection.register(self)
 
       @server_up_since = Time.now
+
+      @parser_class = RESPParser
 
       Server.register(self)
     end
@@ -133,12 +139,12 @@ module RDKit
         raise SDKRequirementNotMetError, '@core is required to represent your business logics'
       end
 
-      if @runner.nil?
-        raise SDKRequirementNotMetError, '@runner is required to act as an RESP frontend'
+      if responder.nil?
+        raise SDKRequirementNotMetError, '@responder is required to act as an RESP frontend'
       end
 
-      if @runner.server.nil?
-        raise SDKRequirementNotMetError, '@runner should have reference to server'
+      if responder.server.nil?
+        raise SDKRequirementNotMetError, '@responder should have reference to server'
       end
     end
 

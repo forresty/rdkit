@@ -39,9 +39,100 @@ Or install it yourself as:
 
 ## Usage
 
-see examples under `example` folder.
+Generally, you should implement one subclass for each of the 3 classes: `RDKit::RESPResponder`, `RDKit::Core` and `RDKit::Server`, and spawn one object for each class.
 
-### Implementing a counter server
+Your server object should have two instance variables `@responder` and `@core` pointed to your spawned instances.
+
+### RDKit::Server
+
+```ruby
+class YourServer < RDKit::Server
+  def initialize
+    super('0.0.0.0', 3721)
+
+    @core = YourCore.new
+    @responder = YourResponder.new(core)
+  end
+end
+
+server = YourServer.new
+
+trap(:INT) { server.stop }
+
+server.start
+```
+
+This will start a `TCPServer` on `0.0.0.0:3721` and stops when you `CTRL-C`.
+
+### RDKit::RESPResponder
+
+`@responder` maps Redis commands to its methods and arguments, for example `info` will be sent to `RESPResponder#info`, and `info all` to `RESPResponder#info` with `"all"` as its first argument.
+
+The return ruby object of each method will be marshaled as RESP strings, for example `'OK'` becomes `"+OK\r\n"`.
+
+For example, with following implementation in your `RESPResponder` subclass:
+
+```ruby
+def add(a, b)
+  a.to_i + b.to_i
+end
+```
+
+You implemented an adder using RDKit! See it in action:
+
+```shell
+$ redis-cli -p 3721
+127.0.0.1:3721> add 1 2
+(integer) 3
+127.0.0.1:3721> add 5
+(error) ERR wrong number of arguments for 'add' command
+127.0.0.1:3721>
+```
+
+The detailed algorithm can be found in `resp.rb`, at the time of writing it is like this:
+
+```ruby
+def compose(data)
+  case data
+  when *%w{ OK string list set hash zset none }
+    "+#{data}\r\n"
+  when true
+    ":1\r\n"
+  when false
+    ":0\r\n"
+  when Integer
+    ":#{data}\r\n"
+  when Array
+    "*#{data.size}\r\n" + data.map { |i| compose(i) }.join
+  when NilClass
+    # Null Bulk String, not Null Array of "*-1\r\n"
+    "$-1\r\n"
+  when WrongTypeError
+    "-WRONGTYPE #{data.message}\r\n"
+  when StandardError
+    "-ERR #{data.message}\r\n"
+  else
+    # always Bulk String
+    "$#{data.bytesize}\r\n#{data}\r\n"
+  end
+end
+```
+
+### RDKit::Core
+
+You are required to implement a `tick!` method. `RDKit` will call it periodically (currently roughly every 0.1 sec), this gives you a chance to do some house-keeping. For example:
+
+```ruby
+def tick!
+  save_non_critical_data! if server.cycles % 1000 == 0
+end
+```
+
+### Examples
+
+See examples under `example` folder.
+
+#### Implementing a counter server
 
 A simple counter server source code listing:
 
@@ -129,7 +220,7 @@ server.start
 
 ```
 
-### Connect using `redis-cli`
+#### Connect using `redis-cli`
 
 ```shell
 $ redis-cli -p 3721
@@ -174,7 +265,7 @@ total_commands_processed:6
 
 Hint: if you are adventurous, try `info all`
 
-### Benchmarking with `redis-benchmark`
+#### Benchmarking with `redis-benchmark`
 
 ```shell
 $ redis-benchmark -p 3721 incr
@@ -204,7 +295,7 @@ Since it is single-threaded, the count will be correct:
 (integer) 10000
 ```
 
-### Implementing blocked commands
+#### Implementing blocked commands
 
 Some commands will be blocking: they may either depend on external services or need some background tasks to be run.
 

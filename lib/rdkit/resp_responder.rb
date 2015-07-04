@@ -1,6 +1,6 @@
 module RDKit
-  class RESPRunner
-    def resp(cmd)
+  class RESPResponder
+    def run(cmd)
       RESP.compose(call(cmd))
     rescue StandardError => e
       RESP.compose(e)
@@ -90,6 +90,12 @@ module RDKit
       end
     rescue ArgumentError => e
       raise WrongNumberOfArgumentError, "wrong number of arguments for '#{cmd}' command"
+    end
+  end
+
+  class RESPRunner < RESPResponder
+    def self.inherited(base)
+      $stderr.puts "RESPRunner is deprecated, use RESPResponder instead"
     end
   end
 end

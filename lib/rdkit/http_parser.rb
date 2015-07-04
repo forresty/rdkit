@@ -22,7 +22,7 @@ module RDKit
         if (length = @parser.headers['Content-Length']) && length.to_i > 0
           @body = ''
         else
-          @responses << ['OK']
+          @responses << [@parser.http_method.downcase + "|" + @parser.request_url, nil]
         end
       end
 
@@ -33,7 +33,7 @@ module RDKit
       @parser.on_message_complete = proc do
         # Headers and body is all parsed
         if @body
-          @responses << [@body]
+          @responses << [@parser.http_method.downcase + "|" + @parser.request_url, @body]
 
           @body = nil
         end

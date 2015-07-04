@@ -153,6 +153,8 @@ module RDKit
       @logger.debug "client #{socket} connected"
       client_connected(client)
 
+      update_peak_connected_clients!
+
       return @clients[socket]
     end
 
@@ -174,8 +176,6 @@ module RDKit
       loop do
         process_blocked_clients
         process_clients
-
-        update_peak_connected_clients!
 
         @cycles += 1
 

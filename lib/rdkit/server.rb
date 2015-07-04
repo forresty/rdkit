@@ -217,6 +217,8 @@ module RDKit
           else
             process(socket)
           end
+
+          process_blocked_clients
         end
       end
     end

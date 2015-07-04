@@ -43,7 +43,7 @@ module RDKit
     end
 
     def unblock!
-      Introspection::Commandstats.record("bg_#{last_command}", (Time.now - @blocked_at) * 1_000_000)
+      Introspection::Commandstats.record("bg_#{last_command}", ((Time.now - @blocked_at) * 1_000_000).to_i)
 
       @blocked_at = nil
 

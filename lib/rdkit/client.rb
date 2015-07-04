@@ -31,7 +31,7 @@ module RDKit
     end
 
     def blocking(on_success=nil, &block)
-      @blocked = true
+      @blocked_at = Time.now
 
       @on_block_success = on_success
 
@@ -43,7 +43,9 @@ module RDKit
     end
 
     def unblock!
-      @blocked = false
+      Introspection::Commandstats.record("bg_#{last_command}", (Time.now - @blocked_at) * 1_000_000)
+
+      @blocked_at = nil
 
       @server.client_block_resumed(self)
       @fiber.resume
@@ -137,7 +139,7 @@ module RDKit
 
       resp, usec = SlowLog.monitor(cmd) { @runner.resp(cmd) }
 
-      if @blocked
+      if @blocked_at
         @server.client_blocked(self)
         Fiber.yield
 

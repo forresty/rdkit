@@ -145,7 +145,7 @@ module RDKit
             usec = @@instance.data["#{cmd}_usec"]
 
             ["comstat_#{cmd}", "calls=#{calls},usec=#{usec},usec_per_call=#{'%.2f' % (usec.to_f / calls)}"]
-          end]
+          end].sort_by { |k,v| k }
         end
       end
 

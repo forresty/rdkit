@@ -137,13 +137,13 @@ module RDKit
         client.socket.write(msg)
       end
 
-      resp, usec = SlowLog.monitor(cmd) { @runner.resp(cmd) }
+      resp, usec = SlowLog.monitor(cmd) { @runner.run(cmd) }
 
       if @blocked_at
         @server.client_blocked(self)
         Fiber.yield
 
-        resp = @runner.resp(@on_block_success.call) if @on_block_success
+        resp = @runner.run(@on_block_success.call) if @on_block_success
       end
 
       Introspection::Commandstats.record(cmd.first, usec)

@@ -1,6 +1,6 @@
 module RDKit
   class RESPRunner
-    def resp(cmd)
+    def run(cmd)
       RESP.compose(call(cmd))
     rescue StandardError => e
       RESP.compose(e)

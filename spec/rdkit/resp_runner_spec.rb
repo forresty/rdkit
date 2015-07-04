@@ -6,7 +6,7 @@ module RDKit
 
     subject { RESPRunner.new }
 
-    it { is_expected.to respond_to :resp }
+    it { is_expected.to respond_to :run }
 
     it { is_expected.to respond_to :info }
     it { is_expected.to respond_to :ping }
@@ -22,13 +22,13 @@ module RDKit
     it { is_expected.to respond_to :lpush }
     it { is_expected.to respond_to :llen }
 
-    describe '#resp' do
+    describe '#run' do
       it 'generates RESP response' do
-        expect(subject.resp('PING')).to match(/PONG/)
+        expect(subject.run('PING')).to match(/PONG/)
       end
 
       it 'generate RESP error on exception' do
-        expect(subject.resp('xx')).to match(/unknown command/)
+        expect(subject.run('xx')).to match(/unknown command/)
       end
     end
 

@@ -143,7 +143,7 @@ module RDKit
         @server.client_blocked(self)
         Fiber.yield
 
-        resp = RESP.compose(@on_block_success.call) if @on_block_success
+        resp = @runner.resp(@on_block_success.call) if @on_block_success
       end
 
       Introspection::Commandstats.record(cmd.first, usec)

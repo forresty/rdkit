@@ -1,10 +1,10 @@
 require "spec_helper"
 
 module RDKit
-  describe RESPRunner do
+  describe RESPResponder do
     before { Server.new('0.0.0.0', 3721) }
 
-    subject { RESPRunner.new }
+    subject { RESPResponder.new }
 
     it { is_expected.to respond_to :run }
 

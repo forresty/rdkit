@@ -27,6 +27,10 @@ module RDKit
         expect(subject.run('PING')).to match(/PONG/)
       end
 
+      it 'accepts block as well' do
+        expect(subject.run(lambda { 'success' })).to eq("$7\r\nsuccess\r\n")
+      end
+
       it 'generate RESP error on exception' do
         expect(subject.run('xx')).to match(/unknown command/)
       end

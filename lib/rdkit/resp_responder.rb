@@ -1,7 +1,11 @@
 module RDKit
   class RESPResponder
     def run(cmd)
-      RESP.compose(call(cmd))
+      if cmd.respond_to?(:call)
+        RESP.compose(cmd.call)
+      else
+        RESP.compose(call(cmd))
+      end
     rescue StandardError => e
       RESP.compose(e)
     end

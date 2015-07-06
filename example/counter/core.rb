@@ -11,6 +11,10 @@ module Counter
       @count += n
     end
 
+    def add(elements)
+      @count += elements.inject(&:+)
+    end
+
     ###########################################
     # overriding required RDKit::Core methods
     ###########################################

@@ -12,5 +12,9 @@ module Counter
     def incr(n=1)
       @counter.incr(n.to_i)
     end
+
+    def add(*elements)
+      @counter.add(elements.map(&:to_i))
+    end
   end
 end

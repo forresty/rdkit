@@ -9,12 +9,14 @@ module RDKit
       @buffer = []
       @regexp = Regexp.new("\\A(.+)\\r\\n\\z")
       @error  = nil
+      @inline_mode = true
     end
 
     def feed(data)
-      if data =~ @regexp
+      if @inline_mode && (data =~ @regexp)
         @buffer << $1.split
       else
+        @inline_mode = false
         @reader.feed(data)
 
         read_into_buffer!

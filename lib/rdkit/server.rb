@@ -178,7 +178,7 @@ module RDKit
     end
 
     def run_acceptor
-      @logger.info "accepting on shared socket (#{@host}:#{@port})"
+      @logger.info "accepting on shared socket (#{@host}:#{@port}), PID #{Process.pid}"
 
       server_started
 

@@ -122,6 +122,7 @@ module RDKit
     end
 
     # callbacks
+    def server_started; end
     def client_connected(client); end
     def client_disconnected(client); end
     def client_command_processed(client); end
@@ -178,6 +179,8 @@ module RDKit
 
     def run_acceptor
       @logger.info "accepting on shared socket (#{@host}:#{@port})"
+
+      server_started
 
       loop do
         process_blocked_clients

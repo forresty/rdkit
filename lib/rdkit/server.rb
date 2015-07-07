@@ -40,6 +40,8 @@ module RDKit
 
       @parser_class = RESPParser
 
+      register_notification_observers!
+
       Server.register(self)
     end
 
@@ -130,6 +132,22 @@ module RDKit
     def client_blocked(client); end
 
     private
+
+    def register_notification_observers!
+      if webhook = ENV['RDKIT_SLOW_LOG_BEARYCHAT_WEBHOOK']
+        require "httpi"
+        require "multi_json"
+        HTTPI.logger = Logger.new('/dev/null')
+
+        NotificationCenter.subscribe('slowlog', self) do |cmd, usec|
+          cmd, *args = cmd
+
+          text = "host=#{@host} port=#{@port} cmd=#{cmd}(#{args.join(',') }) usec=#{usec}"
+
+          pool.process { HTTPI.post(webhook, payload: MultiJson.dump({ text: text })) }
+        end
+      end
+    end
 
     def sanity_check!
       unless @host && @port

@@ -132,6 +132,10 @@ module RDKit
       module ClassMethods
         @@instance = Commandstats.new
 
+        def reset
+          @@instance = Commandstats.new
+        end
+
         def record(cmd, usec)
           @@instance.data["#{cmd.downcase}_calls"] += 1
           @@instance.data["#{cmd.downcase}_usec"] += usec

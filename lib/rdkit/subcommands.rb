@@ -49,6 +49,7 @@ module RDKit
         Introspection::Stats.clear(:total_connections_received)
         Introspection::Stats.clear(:total_net_input_bytes)
         Introspection::Stats.clear(:total_net_output_bytes)
+        Introspection::Commandstats.reset
 
         'OK'
       end

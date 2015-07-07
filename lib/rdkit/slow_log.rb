@@ -38,6 +38,8 @@ module RDKit
             if (max_len = Configuration.get_i('slowlog-max-len')) > 0
               @@logs = @@logs[-max_len..-1]
             end
+
+            NotificationCenter.publish('slowlog', [cmd, elapsed_in_usec])
           end
         end
 

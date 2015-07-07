@@ -42,6 +42,10 @@ module RDKit
         expect(@result1).to eq('bar')
         expect(@result2).to eq('bar')
       end
+
+      it 'does nothing when there is no subscribers' do
+        subject.publish('foo', 'bar')
+      end
     end
   end
 end

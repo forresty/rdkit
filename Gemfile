@@ -9,3 +9,5 @@ group :development, :test do
   gem 'guard'
   gem 'guard-rspec'
 end
+
+gem 'thread', '~> 0.2.1', github: 'meh/ruby-thread'

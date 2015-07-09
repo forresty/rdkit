@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'hiredis'
   spec.add_runtime_dependency 'newrelic_rpm'
   spec.add_runtime_dependency 'sigdump'
-  spec.add_runtime_dependency 'thread'
+  spec.add_runtime_dependency 'thread', '~> 0.2.1'
   spec.add_runtime_dependency 'http_parser.rb'
   spec.add_runtime_dependency 'rack'
   spec.add_runtime_dependency 'httpi'

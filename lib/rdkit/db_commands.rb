@@ -66,6 +66,14 @@ module RDKit
       def lrange(key, start, stop)
         db.lrange(key, start, stop)
       end
+
+      def lpop(key)
+        db.lpop(key)
+      end
+
+      def rpop(key)
+        db.rpop(key)
+      end
     end
     include ListCommands
 

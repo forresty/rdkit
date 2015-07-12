@@ -56,7 +56,7 @@ module RDKit
   end
 
   class RDList < RDObject
-    forward_to_value :unshift, :length
+    forward_to_value :unshift, :length, :shift, :empty?, :pop
   end
 
   class RDSet < RDObject

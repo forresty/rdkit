@@ -88,6 +88,32 @@ module RDKit
           []
         end
       end
+
+      def lpop(key)
+        if list = get_typed_object(key, :list)
+
+          result = list.shift
+
+          del([key]) if list.empty?
+
+          result
+        else
+          nil
+        end
+      end
+
+      def rpop(key)
+        if list = get_typed_object(key, :list)
+
+          result = list.pop
+
+          del([key]) if list.empty?
+
+          result
+        else
+          nil
+        end
+      end
     end
     include ListMethods
 

@@ -5,5 +5,7 @@ module RDKit
     it { is_expected.to respond_to :index }
     it { is_expected.to respond_to :get }
     it { is_expected.to respond_to :set }
+    it { is_expected.to respond_to :lpop }
+    it { is_expected.to respond_to :rpop }
   end
 end

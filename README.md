@@ -437,6 +437,8 @@ See the difference between blocking and non-blocking commands?
 | `del`       | full                                 |                                              |
 | `keys`      | without pattern (return all)         |                                              |
 | `lpush`     | full                                 |                                              |
+| `lpop`      | full                                 |                                              |
+| `rpop`      | full                                 |                                              |
 | `llen`      | full                                 |                                              |
 | `lrange`    | partial (not fully tested)           |                                              |
 | `exists`    | full                                 |                                              |

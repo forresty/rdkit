@@ -21,6 +21,9 @@ module RDKit
     it { is_expected.to respond_to :keys }
     it { is_expected.to respond_to :lpush }
     it { is_expected.to respond_to :llen }
+    it { is_expected.to respond_to :lrange }
+    it { is_expected.to respond_to :lpop }
+    it { is_expected.to respond_to :rpop }
 
     describe '#run' do
       it 'generates RESP response' do
@@ -137,6 +140,58 @@ module RDKit
         expect(subject.exists('key')).to eq(false)
         subject.set('key', 'value')
         expect(subject.exists('key')).to eq(true)
+      end
+    end
+
+    describe '#lpop' do
+      it 'returns nil on non-existing key' do
+        expect(subject.lpop('key')).to eq(nil)
+      end
+
+      it 'raise error on wrong kind of key' do
+        subject.set('key', '1')
+
+        expect { subject.lpop('key') }.to raise_exception(WrongTypeError)
+      end
+
+      it 'return first object of list' do
+        subject.lpush('key', 'a')
+        subject.lpush('key', 'b')
+
+        expect { subject.get('key') }.to raise_exception(WrongTypeError)
+
+        expect(subject.lpop('key')).to eq('b')
+        expect(subject.lpop('key')).to eq('a')
+
+        expect(subject.get('key')).to eq(nil)
+
+        expect(subject.lpop('key')).to eq(nil)
+      end
+    end
+
+    describe '#rpop' do
+      it 'returns nil on non-existing key' do
+        expect(subject.rpop('key')).to eq(nil)
+      end
+
+      it 'raise error on wrong kind of key' do
+        subject.set('key', '1')
+
+        expect { subject.rpop('key') }.to raise_exception(WrongTypeError)
+      end
+
+      it 'return first object of list' do
+        subject.lpush('key', 'a')
+        subject.lpush('key', 'b')
+
+        expect { subject.get('key') }.to raise_exception(WrongTypeError)
+
+        expect(subject.rpop('key')).to eq('a')
+        expect(subject.rpop('key')).to eq('b')
+
+        expect(subject.get('key')).to eq(nil)
+
+        expect(subject.rpop('key')).to eq(nil)
       end
     end
 

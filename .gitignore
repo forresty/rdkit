@@ -10,3 +10,4 @@
 log
 .vagrant
 .env
+Gemfile.ci.lock

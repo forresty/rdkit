@@ -8,7 +8,6 @@ module RDKit
       @reader = Hiredis::Reader.new
       @buffer = []
       @regexp = Regexp.new("\\A(.+)\\r\\n\\z")
-      @error  = nil
       @inline_mode = true
     end
 
@@ -17,31 +16,18 @@ module RDKit
         @buffer << $1.split
       else
         @inline_mode = false
-        @reader.feed(data)
 
-        read_into_buffer!
+        @reader.feed(data)
       end
     end
 
     def gets
-      raise @error unless @error.nil?
-
-      if result = @buffer.shift
+      if @inline_mode && (result = @buffer.shift)
 
         result
       else
         @reader.gets
       end
-    end
-
-    private
-
-    def read_into_buffer!
-      until (reply = @reader.gets) == false
-        @buffer << reply
-      end
-    rescue RuntimeError => e
-      @error = ProtocolError.new(e) if e.message =~ /Protocol error/
     end
   end
 end

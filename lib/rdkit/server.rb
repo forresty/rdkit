@@ -123,13 +123,7 @@ module RDKit
       @pool ||= Thread.pool((ENV['RDKIT_SERVER_THREAD_POOL_SIZE'] || 10).to_i)
     end
 
-    # callbacks
-    def server_started; end
-    def client_connected(client); end
-    def client_disconnected(client); end
-    def client_command_processed(client); end
-    def client_block_resumed(client); end
-    def client_blocked(client); end
+    include Callbacks
 
     private
 

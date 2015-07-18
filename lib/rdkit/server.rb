@@ -5,6 +5,8 @@ module RDKit
   class Server
     HZ = 10
 
+    HANDLED_SIGNALS = [ :TERM, :INT, :HUP ]
+
     attr_reader :server_up_since
     attr_reader :current_client
     attr_reader :current_db
@@ -43,10 +45,18 @@ module RDKit
       register_notification_observers!
 
       Server.register(self)
+
+      # Self-pipe for deferred signal-handling http://www.sitepoint.com/the-self-pipe-trick-explained/
+      # Borrowed from `Foreman::Engine`
+      reader, writer = create_pipe
+      @selfpipe      = { :reader => reader, :writer => writer }
+      @signal_queue  = []
     end
 
     def start
       sanity_check!
+
+      register_signal_handlers
 
       @server_socket = TCPServer.new(@host, @port)
 
@@ -56,6 +66,80 @@ module RDKit
     def stop
       @logger.warn "shutting down..."
       exit
+    end
+
+    def create_pipe
+      IO.method(:pipe).arity.zero? ? IO.pipe : IO.pipe("BINARY")
+    end
+
+    def register_signal_handlers
+      HANDLED_SIGNALS.each do |sig|
+        if ::Signal.list.include? sig.to_s
+          trap(sig) { @signal_queue << sig ; notice_signal }
+        end
+      end
+    end
+
+    def notice_signal
+      @selfpipe[:writer].write_nonblock('.')
+    rescue Errno::EAGAIN
+      # Ignore writes that would block
+    rescue Errno::EINT
+      # Retry if another signal arrived while writing
+      retry
+    end
+
+    def handle_signals
+      while sig = @signal_queue.shift
+        handle_signal(sig)
+      end
+    end
+
+    # Invoke the real handler for signal +sig+. This shouldn't be called directly
+    # by signal handlers, as it might invoke code which isn't re-entrant.
+    #
+    # @param [Symbol] sig  the name of the signal to be handled
+    #
+    def handle_signal(sig)
+      case sig
+      when :TERM
+        handle_term_signal
+      when :INT
+        handle_interrupt
+      when :HUP
+        handle_hangup
+      else
+        system "unhandled signal #{sig}"
+      end
+    end
+
+    # Handle a TERM signal
+    #
+    def handle_term_signal
+      @logger.warn "SIGTERM received"
+      terminate_gracefully
+    end
+
+    # Handle an INT signal
+    #
+    def handle_interrupt
+      @logger.warn "SIGINT received"
+      terminate_gracefully
+    end
+
+    # Handle a HUP signal
+    #
+    def handle_hangup
+      @logger.warn "SIGHUP received"
+      terminate_gracefully
+    end
+
+    def terminate_gracefully
+      return if @terminating
+
+      @terminating = true
+
+      stop
     end
 
     include MemoryMonitoring
@@ -205,7 +289,7 @@ module RDKit
         gc_pool.process if @cycles % 1000 == 0
       end
     rescue Exception => e
-      @logger.warn e
+      @logger.warn e unless e.class == SystemExit
       raise e
     end
 
@@ -229,12 +313,14 @@ module RDKit
     end
 
     def process_clients
-      readable, _ = IO.select([@server_socket, @clients.keys].flatten, nil, nil, 1.0 / HZ)
+      readable, _ = IO.select([@server_socket, @selfpipe[:reader], @clients.keys].flatten, nil, nil, 1.0 / HZ)
 
       if readable
         readable.each do |socket|
           if socket == @server_socket
             add_client
+          elsif socket == @selfpipe[:reader]
+            handle_signals
           else
             process(socket)
           end

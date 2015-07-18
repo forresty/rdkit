@@ -6,6 +6,4 @@ require_relative 'callbacks/server'
 
 server = Callbacks::Server.new
 
-trap(:INT) { server.stop }
-
 server.start

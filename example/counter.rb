@@ -7,6 +7,4 @@ require_relative 'counter/server'
 
 server = Counter::Server.new
 
-trap(:INT) { server.stop }
-
 server.start

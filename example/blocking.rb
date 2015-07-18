@@ -7,6 +7,4 @@ require_relative 'blocking/server'
 
 server = Blocking::Server.new
 
-trap(:INT) { server.stop }
-
 server.start

@@ -51,6 +51,12 @@ module RDKit
       reader, writer = create_pipe
       @selfpipe      = { :reader => reader, :writer => writer }
       @signal_queue  = []
+
+      @additional_io_handlers = {}
+    end
+
+    def inject_io_handler(another_io, &block)
+      @additional_io_handlers[another_io] = block
     end
 
     def start
@@ -313,7 +319,7 @@ module RDKit
     end
 
     def process_clients
-      readable, _ = IO.select([@server_socket, @selfpipe[:reader], @clients.keys].flatten, nil, nil, 1.0 / HZ)
+      readable, _ = IO.select([@server_socket, @selfpipe[:reader], @clients.keys, @additional_io_handlers.keys].flatten, nil, nil, 1.0 / HZ)
 
       if readable
         readable.each do |socket|
@@ -321,6 +327,8 @@ module RDKit
             add_client
           elsif socket == @selfpipe[:reader]
             handle_signals
+          elsif block = @additional_io_handlers[socket]
+            block.call
           else
             process(socket)
           end

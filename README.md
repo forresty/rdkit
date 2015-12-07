@@ -417,7 +417,7 @@ $ redis-benchmark -p 3721 -n 10 nonblock
 
 See the difference between blocking and non-blocking commands?
 
-#### Implementing blocked commands
+#### Additional IO Handler Injection
 
 Since RDKit version 0.1.5, it allows injection of additional IO handlers into the main loop.
 

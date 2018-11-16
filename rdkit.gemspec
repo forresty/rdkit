@@ -27,6 +27,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'multi_json'
 
   spec.add_development_dependency "bundler", "~> 1.8"
-  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "rake", "~> 12.3"
   spec.add_development_dependency "rspec"
 end
